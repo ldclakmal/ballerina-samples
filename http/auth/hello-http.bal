@@ -12,9 +12,9 @@
 // "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
-// under the License.package sample;
+// under the License.package http;
 
-import ballerina/io;
+import ballerina/config;
 
 function main(string... args) {
     io:println("Hello, Ballerina HTTP AUTH!");
@@ -23,4 +23,84 @@ function main(string... args) {
     testBasicAuth();
     testBearerTokenAuth();
     testOAuth();
+}
+
+//*********************************************************************************************************************
+
+endpoint http:Client noAuthClient {
+    url:config:getAsString("NO_AUTH_BASE_URL")
+};
+
+public function testNoAuth() {
+    http:Request req = new;
+    req.setHeader("X-Authy-API-Key", config:getAsString("Authy_API_Key"));
+    string requestPath = config:getAsString("NO_AUTH_REQUEST_PATH");
+    var response = noAuthClient -> get(requestPath, request = req);
+
+    io:println("--- No auth :");
+    io:println(response);
+    io:println("---------------------------------------------------------------------------\n");
+}
+
+//*********************************************************************************************************************
+
+endpoint http:Client basicAuthClient {
+    url:config:getAsString("BASIC_AUTH_BASE_URL"),
+    auth:{
+        scheme:"basic",
+        username:config:getAsString("BASIC_AUTH_USERNAME"),
+        password:config:getAsString("BASIC_AUTH_PASSWORD")
+    }
+};
+
+public function testBasicAuth() {
+    string requestPath = config:getAsString("BASIC_AUTH_REQUEST_PATH");
+    var response = basicAuthClient -> get(requestPath);
+
+    io:println("--- Basic auth :");
+    io:println(response);
+    io:println("---------------------------------------------------------------------------\n");
+}
+
+//*********************************************************************************************************************
+
+endpoint http:Client bearerTokenAuthClient {
+    url:config:getAsString("BEARER_TOKEN_AUTH_BASE_URL"),
+    auth:{
+        scheme:"oauth",
+        accessToken:config:getAsString("BEARER_TOKEN_AUTH_ACCESS_TOKEN")
+    }
+};
+
+public function testBearerTokenAuth() {
+    string requestPath = config:getAsString("BEARER_TOKEN_AUTH_REQUEST_PATH");
+    var response = bearerTokenAuthClient -> post(requestPath);
+
+    io:println("--- Bearer token auth :");
+    io:println(response);
+    io:println("---------------------------------------------------------------------------\n");
+}
+
+//*********************************************************************************************************************
+
+endpoint http:Client oauthClient {
+    url:config:getAsString("OAUTH_BASE_URL"),
+    auth:{
+        scheme:"oauth",
+        accessToken:config:getAsString("OAUTH_ACCESS_TOKEN"),
+        clientId:config:getAsString("OAUTH_CLIENT_ID"),
+        clientSecret:config:getAsString("OAUTH_CLIENT_SECRET"),
+        refreshToken:config:getAsString("OAUTH_REFRESH_TOKEN"),
+        refreshUrl:config:getAsString("OAUTH_REFRESH_URL")
+    }
+};
+
+public function testOAuth() {
+    http:Request req = new;
+    string requestPath = config:getAsString("OAUTH_REQUEST_PATH");
+    var response = oauthClient -> get(requestPath, request = req);
+
+    io:println("--- OAuth :");
+    io:println(response);
+    io:println("---------------------------------------------------------------------------\n");
 }
