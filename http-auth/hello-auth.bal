@@ -19,7 +19,7 @@ import ballerina/http;
 import ballerina/config;
 
 function main(string... args) {
-    io:println("Hello, Ballerina HTTP AUTH!");
+    io:println("Hello, Ballerina HTTP AUTH !");
 
     testNoAuth();
     testBasicAuth();

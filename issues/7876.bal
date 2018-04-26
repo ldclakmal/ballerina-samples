@@ -19,7 +19,7 @@ import ballerina/http;
 import ballerina/mime;
 
 endpoint http:Listener httpListener {
-    port:9090
+    port: 9090
 };
 
 service<http:Service> hello bind httpListener {
@@ -30,7 +30,7 @@ service<http:Service> hello bind httpListener {
     }
 }
 
-endpoint http:Client httpClient {url:"http://localhost:9090"};
+endpoint http:Client httpClient { url: "http://localhost:9090" };
 
 function main(string... args) {
     http:Request req = new;
