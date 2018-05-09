@@ -30,32 +30,25 @@ service helloWorld bind helloWorldEP {
 
     @http:ResourceConfig {
         methods: ["GET"],
-        path: "/"
+        path: "/get"
     }
-    sayHello(endpoint caller, http:Request req) {
+    sayHelloGet(endpoint caller, http:Request req) {
         http:Response res = new;
-        res.setPayload("Hello World!");
+        res.setPayload("Hello GET Request !");
         caller->respond(res) but {
             error e => log:printError("Failed to respond", err = e)
         };
     }
-}
 
-endpoint http:Client clientEP {
-    url: "http://localhost:9095",
-    httpVersion: "2.0"
-};
-
-function main(string... args) {
-    var resp = clientEP->get("/hello/");
-
-    match resp {
-        http:Response response => {
-            match (response.getTextPayload()) {
-                string res => log:printInfo(res);
-                error err => log:printError(err.message);
-            }
-        }
-        error err => log:printError(err.message);
+    @http:ResourceConfig {
+        methods: ["POST"],
+        path: "/post"
+    }
+    sayHelloPost(endpoint caller, http:Request req) {
+        http:Response res = new;
+        res.setPayload("Hello POST Request !");
+        caller->respond(res) but {
+            error e => log:printError("Failed to respond", err = e)
+        };
     }
 }
