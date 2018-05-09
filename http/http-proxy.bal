@@ -18,28 +18,6 @@ import ballerina/io;
 import ballerina/http;
 import ballerina/log;
 
-endpoint http:Listener helloWorldEP {
-    port: 9095
-};
-
-@http:ServiceConfig {
-    basePath: "/hello"
-}
-service helloWorld bind helloWorldEP {
-
-    @http:ResourceConfig {
-        methods: ["GET"],
-        path: "/"
-    }
-    sayHello(endpoint caller, http:Request req) {
-        http:Response res = new;
-        res.setPayload("Hello World!");
-        caller->respond(res) but {
-            error e => log:printError("Failed to respond", err = e)
-        };
-    }
-}
-
 endpoint http:Client clientEP {
     url: "http://localhost:9095",
     proxy: {
@@ -51,9 +29,21 @@ endpoint http:Client clientEP {
 };
 
 function main(string... args) {
-    var resp = clientEP->get("/hello/");
+    var respGet = clientEP->get("/hello/get");
 
-    match resp {
+    match respGet {
+        http:Response response => {
+            match (response.getTextPayload()) {
+                string res => log:printInfo(res);
+                error err => log:printError(err.message);
+            }
+        }
+        error err => log:printError(err.message);
+    }
+
+    var respPost = clientEP->post("/hello/post");
+
+    match respPost {
         http:Response response => {
             match (response.getTextPayload()) {
                 string res => log:printInfo(res);
