@@ -24,9 +24,21 @@ endpoint http:Client clientEP {
 };
 
 function main(string... args) {
-    var resp = clientEP->get("/hello/get");
+    var respGet = clientEP->get("/hello/get");
 
-    match resp {
+    match respGet {
+        http:Response response => {
+            match (response.getTextPayload()) {
+                string res => log:printInfo(res);
+                error err => log:printError(err.message);
+            }
+        }
+        error err => log:printError(err.message);
+    }
+
+    var respPost = clientEP->post("/hello/post");
+
+    match respPost {
         http:Response response => {
             match (response.getTextPayload()) {
                 string res => log:printInfo(res);
