@@ -19,7 +19,7 @@ import ballerina/http;
 import ballerina/log;
 
 endpoint http:Client clientEP {
-    url: "http://localhost:9095",
+    url: "http://dummy.restapiexample.com/api/v1",
     proxy: {
         host: "127.0.0.1",
         port: 3128,
@@ -29,24 +29,12 @@ endpoint http:Client clientEP {
 };
 
 function main(string... args) {
-    var respGet = clientEP->get("/hello/get");
+    var resp = clientEP->get("/employee/2");
 
-    match respGet {
+    match resp {
         http:Response response => {
             match (response.getTextPayload()) {
-                string res => log:printInfo(res);
-                error err => log:printError(err.message);
-            }
-        }
-        error err => log:printError(err.message);
-    }
-
-    var respPost = clientEP->post("/hello/post");
-
-    match respPost {
-        http:Response response => {
-            match (response.getTextPayload()) {
-                string res => log:printInfo(res);
+                string res => io:println("--- GET Response : " + res);
                 error err => log:printError(err.message);
             }
         }
