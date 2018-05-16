@@ -34,10 +34,8 @@ endpoint http:Client noAuthClient {
 };
 
 public function testNoAuth() {
-    http:Request req = new;
-    req.setHeader("X-Authy-API-Key", config:getAsString("Authy_API_Key"));
     string requestPath = config:getAsString("NO_AUTH_REQUEST_PATH");
-    var response = noAuthClient->get(requestPath, request = req);
+    var response = noAuthClient->get(requestPath);
 
     io:println("\n--- No auth ---------------------------------------------------------------------------");
     io:println(response);
