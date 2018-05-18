@@ -23,15 +23,27 @@ endpoint http:Client clientEP {
     proxy: {
         host: "127.0.0.1",
         port: 3128,
-        userName: "",
-        password: ""
+        userName: "admin",
+        password: "123"
     }
 };
 
 function main(string... args) {
-    var resp = clientEP->get("/employee/2");
+    var resp1 = clientEP->get("/employee/1");
 
-    match resp {
+    match resp1 {
+        http:Response response => {
+            match (response.getTextPayload()) {
+                string res => io:println("--- GET Response : " + res);
+                error err => log:printError(err.message);
+            }
+        }
+        error err => log:printError(err.message);
+    }
+
+    var resp2 = clientEP->get("/employee/2");
+
+    match resp2 {
         http:Response response => {
             match (response.getTextPayload()) {
                 string res => io:println("--- GET Response : " + res);
