@@ -3,3 +3,4 @@ target/
 .idea/
 *.log
 *.iml
+*.conf
