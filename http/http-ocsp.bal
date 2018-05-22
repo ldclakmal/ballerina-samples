@@ -19,7 +19,7 @@ import ballerina/http;
 import ballerina/log;
 
 endpoint http:Client clientEP {
-    url: "https://ldclakmal.me",
+    url: "https://b7a.fun",
     secureSocket: {
         trustStore: {
             path: "${ballerina.home}/bre/security/ballerinaTruststore.p12",
