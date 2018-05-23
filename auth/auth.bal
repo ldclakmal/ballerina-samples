@@ -23,7 +23,6 @@ function main(string... args) {
 
     testNoAuth();
     testBasicAuth();
-    testBearerTokenAuth();
     testOAuth();
 }
 
@@ -57,24 +56,6 @@ public function testBasicAuth() {
     var response = basicAuthClient->get(requestPath);
 
     io:println("\n--- Basic auth ---------------------------------------------------------------------------");
-    io:println(response);
-}
-
-//*********************************************************************************************************************
-
-endpoint http:Client bearerTokenAuthClient {
-    url: config:getAsString("BEARER_TOKEN_AUTH_BASE_URL"),
-    auth: {
-        scheme: "oauth",
-        accessToken: config:getAsString("BEARER_TOKEN_AUTH_ACCESS_TOKEN")
-    }
-};
-
-public function testBearerTokenAuth() {
-    string requestPath = config:getAsString("BEARER_TOKEN_AUTH_REQUEST_PATH");
-    var response = bearerTokenAuthClient->post(requestPath);
-
-    io:println("\n--- Bearer token auth ---------------------------------------------------------------------------");
     io:println(response);
 }
 
