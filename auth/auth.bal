@@ -23,7 +23,7 @@ function main(string... args) {
 
     testNoAuth();
     testBasicAuth();
-    testOAuth();
+    testOAuth2();
 }
 
 //*********************************************************************************************************************
@@ -61,23 +61,23 @@ public function testBasicAuth() {
 
 //*********************************************************************************************************************
 
-endpoint http:Client oauthClient {
-    url: config:getAsString("OAUTH_BASE_URL"),
+endpoint http:Client oauth2Client {
+    url: config:getAsString("OAUTH2_BASE_URL"),
     auth: {
         scheme: "oauth",
-        accessToken: config:getAsString("OAUTH_ACCESS_TOKEN"),
-        clientId: config:getAsString("OAUTH_CLIENT_ID"),
-        clientSecret: config:getAsString("OAUTH_CLIENT_SECRET"),
-        refreshToken: config:getAsString("OAUTH_REFRESH_TOKEN"),
-        refreshUrl: config:getAsString("OAUTH_REFRESH_URL")
+        accessToken: config:getAsString("OAUTH2_ACCESS_TOKEN"),
+        clientId: config:getAsString("OAUTH2_CLIENT_ID"),
+        clientSecret: config:getAsString("OAUTH2_CLIENT_SECRET"),
+        refreshToken: config:getAsString("OAUTH2_REFRESH_TOKEN"),
+        refreshUrl: config:getAsString("OAUTH2_REFRESH_URL")
     }
 };
 
-public function testOAuth() {
+public function testOAuth2() {
     http:Request req = new;
-    string requestPath = config:getAsString("OAUTH_REQUEST_PATH");
-    var response = oauthClient->get(requestPath, request = req);
+    string requestPath = config:getAsString("OAUTH2_REQUEST_PATH");
+    var response = oauth2Client->get(requestPath, request = req);
 
-    io:println("\n--- OAuth ---------------------------------------------------------------------------");
+    io:println("\n--- OAuth2 ---------------------------------------------------------------------------");
     io:println(response);
 }
