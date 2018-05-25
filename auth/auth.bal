@@ -74,9 +74,8 @@ endpoint http:Client oauth2Client {
 };
 
 public function testOAuth2() {
-    http:Request req = new;
     string requestPath = config:getAsString("OAUTH2_REQUEST_PATH");
-    var response = oauth2Client->get(requestPath, request = req);
+    var response = oauth2Client->get(requestPath);
 
     io:println("\n--- OAuth2 ---------------------------------------------------------------------------");
     io:println(response);
