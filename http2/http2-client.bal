@@ -19,7 +19,7 @@ import ballerina/http;
 import ballerina/log;
 
 endpoint http:Client clientEP {
-    url: "http://localhost:9095",
+    url: "http://localhost:9191",
     httpVersion: "2.0"
 };
 
@@ -36,15 +36,15 @@ function main(string... args) {
         error err => log:printError(err.message);
     }
 
-    var respPost = clientEP->post("/hello/post");
-
-    match respPost {
-        http:Response response => {
-            match (response.getTextPayload()) {
-                string res => log:printInfo(res);
-                error err => log:printError(err.message);
-            }
-        }
-        error err => log:printError(err.message);
-    }
+    //var respPost = clientEP->post("/hello/post");
+    //
+    //match respPost {
+    //    http:Response response => {
+    //        match (response.getTextPayload()) {
+    //            string res => log:printInfo(res);
+    //            error err => log:printError(err.message);
+    //        }
+    //    }
+    //    error err => log:printError(err.message);
+    //}
 }
