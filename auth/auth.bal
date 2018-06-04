@@ -64,7 +64,7 @@ public function testBasicAuth() {
 endpoint http:Client oauth2Client {
     url: config:getAsString("OAUTH2_BASE_URL"),
     auth: {
-        scheme: "oauth",
+        scheme: "oauth2",
         accessToken: config:getAsString("OAUTH2_ACCESS_TOKEN"),
         clientId: config:getAsString("OAUTH2_CLIENT_ID"),
         clientSecret: config:getAsString("OAUTH2_CLIENT_SECRET"),
