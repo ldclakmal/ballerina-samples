@@ -45,7 +45,7 @@ public function testNoAuth() {
 endpoint http:Client basicAuthClient {
     url: config:getAsString("BASIC_AUTH_BASE_URL"),
     auth: {
-        scheme: "basic",
+        scheme: http:BASIC_AUTH,
         username: config:getAsString("BASIC_AUTH_USERNAME"),
         password: config:getAsString("BASIC_AUTH_PASSWORD")
     }
@@ -64,7 +64,7 @@ public function testBasicAuth() {
 endpoint http:Client oauth2Client {
     url: config:getAsString("OAUTH2_BASE_URL"),
     auth: {
-        scheme: "oauth2",
+        scheme: http:OAUTH2,
         accessToken: config:getAsString("OAUTH2_ACCESS_TOKEN"),
         clientId: config:getAsString("OAUTH2_CLIENT_ID"),
         clientSecret: config:getAsString("OAUTH2_CLIENT_SECRET"),
