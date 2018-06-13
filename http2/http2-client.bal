@@ -19,7 +19,7 @@ import ballerina/http;
 import ballerina/log;
 
 endpoint http:Client clientEP {
-    url: "http://localhost:9191",
+    url: "http://localhost:9095",
     httpVersion: "2.0"
 };
 
