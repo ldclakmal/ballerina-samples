@@ -36,15 +36,28 @@ function main(string... args) {
         error err => log:printError(err.message);
     }
 
-    //var respPost = clientEP->post("/hello/post");
-    //
-    //match respPost {
-    //    http:Response response => {
-    //        match (response.getTextPayload()) {
-    //            string res => log:printInfo(res);
-    //            error err => log:printError(err.message);
-    //        }
-    //    }
-    //    error err => log:printError(err.message);
-    //}
+    http:Request req;
+    req.setTextPayload("********************************");
+
+    var respPost1 = clientEP->post("/hello/post", req);
+    match respPost1 {
+        http:Response response => {
+            match (response.getTextPayload()) {
+                string res => log:printInfo(res);
+                error err => log:printError(err.message);
+            }
+        }
+        error err => log:printError(err.message);
+    }
+
+    var respPost2 = clientEP->post("/hello/post", req);
+    match respPost2 {
+        http:Response response => {
+            match (response.getTextPayload()) {
+                string res => log:printInfo(res);
+                error err => log:printError(err.message);
+            }
+        }
+        error err => log:printError(err.message);
+    }
 }
