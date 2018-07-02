@@ -34,7 +34,7 @@ service helloWorld bind helloWorldEP {
     }
     sayHelloGet(endpoint caller, http:Request req) {
         http:Response res = new;
-        res.setPayload("*** Hello GET Response !");
+        res.setPayload("Hello GET Request !");
         caller->respond(res) but {
             error e => log:printError("Failed to respond", err = e)
         };
@@ -45,9 +45,8 @@ service helloWorld bind helloWorldEP {
         path: "/post"
     }
     sayHelloPost(endpoint caller, http:Request req) {
-        string payload = check req.getTextPayload();
         http:Response res = new;
-        res.setPayload("*** Hello POST Response !");
+        res.setPayload("Hello POST Request !");
         caller->respond(res) but {
             error e => log:printError("Failed to respond", err = e)
         };
