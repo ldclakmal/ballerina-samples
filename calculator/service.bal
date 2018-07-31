@@ -17,7 +17,7 @@
 import ballerina/http;
 
 endpoint http:Listener listener {
-    port:9090
+    port: 9090
 };
 
 // Calculator REST service
@@ -57,7 +57,7 @@ service<http:Service> Calculator bind listener {
             json other => {} //error
         }
 
-        if(operation == "add" || operation == "+") {
+        if (operation == "add" || operation == "+") {
             result = add(firstNumber, secondNumber);
         }
 

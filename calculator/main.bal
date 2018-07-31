@@ -34,9 +34,6 @@ function main(string... args) {
 
         if (operation == 5) {
             break;
-        } else if (operation < 1 || operation > 5) {
-            io:println("Invalid choice \n");
-            continue;
         }
 
         // Read two numbers from user to be used for calculator operations
@@ -46,10 +43,10 @@ function main(string... args) {
         float secondNumber = check <float>input2;
 
         // Execute calculator operations based on user's choice
-        if(operation == 1) {
+        if (operation == 1) {
             io:print("Add result: ");
             io:println(add(firstNumber, secondNumber));
-        } else if(operation == 2) {
+        } else if (operation == 2) {
             io:print("Subtract result: ");
             io:println(subtract(firstNumber, secondNumber));
         } else {

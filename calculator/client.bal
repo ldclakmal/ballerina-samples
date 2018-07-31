@@ -46,6 +46,8 @@ function main(string... args) {
                 }
             }
         }
-        error err => { log:printError(err.message, err = err); }
+        error err => {
+            log:printError(err.message, err = err);
+        }
     }
 }
