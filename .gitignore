@@ -1,3 +1,4 @@
+# IDE files
 .ballerina/
 target/
 .idea/
