@@ -17,10 +17,11 @@
 import ballerina/http;
 import ballerina/log;
 
+@final int PROMISES_COUNT = 10;
+
 endpoint http:Listener http2ServiceEP {
     port: 9090,
     httpVersion: "2.0"
-    //keepAlive: http:KEEPALIVE_ALWAYS
 };
 
 endpoint http:Client weatherAPIClient {
@@ -47,7 +48,7 @@ service http2Service bind http2ServiceEP {
 
         // Send a Push Promise and keep the promises in a map.
         int i = 0;
-        while (i < 5) {
+        while (i < PROMISES_COUNT) {
             http:PushPromise promise = new(path = "/", method = "GET");
             caller->promise(promise) but {
                 error e => log:printError("Error occurred while sending the promise", err = e)
@@ -74,7 +75,7 @@ service http2Service bind http2ServiceEP {
             match weatherAPIResponse {
                 http:Response pushResponse => {
                     caller->pushPromisedResponse(promise, pushResponse) but {
-                        error e => log:printError("Error occurred while sending the promised response1", err = e)
+                        error e => log:printError("Error occurred while sending the promised response", err = e)
                     };
                 }
                 error err => log:printError(err.message);
