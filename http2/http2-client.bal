@@ -14,7 +14,6 @@
 // specific language governing permissions and limitations
 // under the License.package http2;
 
-import ballerina/io;
 import ballerina/http;
 import ballerina/log;
 

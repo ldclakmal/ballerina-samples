@@ -22,16 +22,13 @@ endpoint http:Listener helloWorldEP {
     port: 9095
 };
 
-@http:ServiceConfig {
-    basePath: "/hello"
-}
-service helloWorld bind helloWorldEP {
+@http:ServiceConfig
+service hello bind helloWorldEP {
 
     @http:ResourceConfig {
-        methods: ["GET"],
-        path: "/get"
+        methods: ["GET"]
     }
-    sayHelloGet(endpoint caller, http:Request req) {
+    get(endpoint caller, http:Request req) {
         http:Response res = new;
         res.setPayload("Hello GET Request !");
         caller->respond(res) but {
@@ -40,10 +37,9 @@ service helloWorld bind helloWorldEP {
     }
 
     @http:ResourceConfig {
-        methods: ["POST"],
-        path: "/post"
+        methods: ["POST"]
     }
-    sayHelloPost(endpoint caller, http:Request req) {
+    post(endpoint caller, http:Request req) {
         http:Response res = new;
         res.setPayload("Hello POST Request !");
         caller->respond(res) but {
