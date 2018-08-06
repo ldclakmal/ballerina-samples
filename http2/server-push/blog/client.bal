@@ -28,16 +28,16 @@ function main(string... args) {
     http:Request serviceReq = new;
     http:HttpFuture httpFuture = check clientEP->submit("GET", "/hello/sayHello", serviceReq);
 
-    // Check if promises exists.
-    boolean hasPromise = clientEP->hasPromise(httpFuture);
-
     // Get the requested resource response.
     http:Response response = check clientEP->getResponse(httpFuture);
     json responsePayload = check response.getJsonPayload();
     log:printInfo("Response : " + responsePayload.toString());
 
     // Check if promises exists.
-    if (hasPromise) {
+    boolean hasPromise = clientEP->hasPromise(httpFuture);
+
+    // Get the response for the promises.
+    while (hasPromise) {
         http:PushPromise pushPromise = check clientEP->getNextPromise(httpFuture);
         log:printInfo("Received a promise for " + pushPromise.path);
 
@@ -45,5 +45,8 @@ function main(string... args) {
         http:Response promisedResponse = check clientEP->getPromisedResponse(pushPromise);
         json promisedPayload = check promisedResponse.getJsonPayload();
         log:printInfo("Promised resource : " + promisedPayload.toString());
+
+        // Check if more promises exists.
+        hasPromise = clientEP->hasPromise(httpFuture);
     }
 }
