@@ -35,14 +35,14 @@ service hello bind helloWorldEP {
 
         // Construct the requested resource and send.
         http:Response response = new;
-        json msg = { "message": "response message for the original request" };
-        response.setPayload(msg);
+        json respMsg = { "message": "response message for the original request" };
+        response.setPayload(respMsg);
         _ = caller->respond(response);
 
         // Construct promised resource and send.
         http:Response push = new;
-        msg = { "message": "push response for the sent promise" };
-        push.setPayload(msg);
+        json pushMsg = { "message": "push response for the sent promise" };
+        push.setPayload(pushMsg);
         _ = caller->pushPromisedResponse(promise, push);
     }
 }

@@ -26,74 +26,24 @@ function main(string... args) {
 
     // Submit a `GET` request.
     http:Request serviceReq = new;
-    http:HttpFuture httpFuture = new;
-    var submissionResult = clientEP->submit("GET", "/hello/sayHello", serviceReq);
-    match submissionResult {
-        http:HttpFuture resultantFuture => {
-            httpFuture = resultantFuture;
-        }
-        error resultantErr => {
-            log:printError("Error occurred while submitting a request", err = resultantErr);
-            return;
-        }
-    }
+    http:HttpFuture httpFuture = check clientEP->submit("GET", "/hello/sayHello", serviceReq);
 
     // Check if promises exists.
     boolean hasPromise = clientEP->hasPromise(httpFuture);
 
-    // Get the next promise.
-    http:PushPromise pushPromise = new;
-    if (hasPromise) {
-        var nextPromiseResult = clientEP->getNextPromise(httpFuture);
-        match nextPromiseResult {
-            http:PushPromise resultantPushPromise => {
-                pushPromise = resultantPushPromise;
-            }
-            error resultantErr => {
-                log:printError("Error occurred while fetching a push promise", err = resultantErr);
-                return;
-            }
-        }
-        log:printInfo("Received a promise for " + pushPromise.path);
-    }
-
     // Get the requested resource response.
-    http:Response response = new;
-    var responseResult = clientEP->getResponse(httpFuture);
-    match responseResult {
-        http:Response resultantResponse => {
-            response = resultantResponse;
-        }
-        error resultantErr => {
-            log:printError("Error occurred while fetching response", err = resultantErr);
-            return;
-        }
-    }
-    var responsePayload = response.getJsonPayload();
-    match responsePayload {
-        json resultantJsonPayload =>
-        log:printInfo("Response : " + resultantJsonPayload.toString());
-        error e =>
-        log:printError("Expected response payload not received", err = e);
-    }
+    http:Response response = check clientEP->getResponse(httpFuture);
+    json responsePayload = check response.getJsonPayload();
+    log:printInfo("Response : " + responsePayload.toString());
 
-    // Fetch required promise responses.
-    http:Response promisedResponse = new;
-    var promisedResponseResult = clientEP->getPromisedResponse(pushPromise);
-    match promisedResponseResult {
-        http:Response resultantPromisedResponse => {
-            promisedResponse = resultantPromisedResponse;
-        }
-        error resultantErr => {
-            log:printError("Error occurred while fetching promised response", err = resultantErr);
-            return;
-        }
-    }
-    var promisedPayload = promisedResponse.getJsonPayload();
-    match promisedPayload {
-        json promisedJsonPayload =>
-        log:printInfo("Promised resource : " + promisedJsonPayload.toString());
-        error e =>
-        log:printError("Expected promised response payload not received", err = e);
+    // Check if promises exists.
+    if (hasPromise) {
+        http:PushPromise pushPromise = check clientEP->getNextPromise(httpFuture);
+        log:printInfo("Received a promise for " + pushPromise.path);
+
+        // Fetch required promise responses.
+        http:Response promisedResponse = check clientEP->getPromisedResponse(pushPromise);
+        json promisedPayload = check promisedResponse.getJsonPayload();
+        log:printInfo("Promised resource : " + promisedPayload.toString());
     }
 }
