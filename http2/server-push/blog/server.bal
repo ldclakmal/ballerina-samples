@@ -20,7 +20,6 @@ import ballerina/log;
 endpoint http:Listener helloWorldEP {
     port: 9095,
     httpVersion: "2.0"
-
 };
 
 @http:ServiceConfig
