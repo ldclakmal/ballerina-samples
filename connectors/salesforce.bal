@@ -12,7 +12,7 @@
 // "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
-// under the License.package connector;
+// under the License.package connectors;
 
 import wso2/sfdc37 as sf;
 import ballerina/config;
@@ -42,7 +42,7 @@ function main(string... args) {
         }
     };
 
-    //Call the Salesforce connector function getAvailableApiVersions().
+    //Call the Salesforce connectors function getAvailableApiVersions().
     json|sf:SalesforceConnectorError response = salesforceClient->getAvailableApiVersions();
     match response {
         //if successful, returns JSON result

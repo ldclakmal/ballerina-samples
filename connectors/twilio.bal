@@ -12,33 +12,22 @@
 // "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
-// under the License.package connector;
+// under the License.package connectors;
 
 import ballerina/config;
-import ballerina/http;
 import ballerina/io;
-import wso2/github4;
+import wso2/twilio;
 
-function main(string... args) {
-    endpoint github4:Client githubClient {
-        clientConfig: {
-            auth: {
-                scheme: http:OAUTH2,
-                accessToken: config:getAsString("GITHUB_TOKEN")
-            }
-        }
+function main (string... args) {
+    endpoint twilio:Client twilioClient {
+        accountSId:config:getAsString("ACCOUNT_SID"),
+        authToken:config:getAsString("AUTH_TOKEN"),
+        xAuthyKey:config:getAsString("AUTHY_API_KEY")
     };
 
-    github4:Repository repository = {};
-    var repo = githubClient->getRepository("wso2-ballerina/package-github");
-    match repo {
-        github4:Repository rep => {
-            repository = rep;
-        }
-        github4:GitClientError err => {
-            io:println(err);
-        }
+    var details = twilioClient->getAccountDetails();
+    match details {
+        twilio:Account account => io:println(account);
+        twilio:TwilioError twilioError => io:println(twilioError);
     }
-
-    io:println(repository);
 }
