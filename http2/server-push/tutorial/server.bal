@@ -34,14 +34,8 @@ endpoint http:Client weatherAPIClient {
     }
 };
 
-@http:ServiceConfig {
-    basePath: "/http2Service"
-}
 service http2Service bind http2ServiceEP {
 
-    @http:ResourceConfig {
-        path: "/"
-    }
     http2Resource(endpoint caller, http:Request request) {
 
         map<http:PushPromise> promisesMap;

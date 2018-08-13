@@ -22,10 +22,8 @@ endpoint http:Listener helloWorldEP {
     httpVersion: "2.0"
 };
 
-@http:ServiceConfig
 service hello bind helloWorldEP {
 
-    @http:ResourceConfig
     sayHello(endpoint caller, http:Request req) {
 
         // Send a Push Promises for 2 resources with 2 methods.

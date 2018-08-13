@@ -28,7 +28,7 @@ function main(string... args) {
     http:Request serviceReq = new;
     http:HttpFuture httpFuture = new;
     // Submit a request.
-    var submissionResult = clientEP->submit("GET", "/http2Service", serviceReq);
+    var submissionResult = clientEP->submit("GET", "/http2Service/http2Resource", serviceReq);
 
     match submissionResult {
         http:HttpFuture resultantFuture => {
