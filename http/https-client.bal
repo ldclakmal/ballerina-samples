@@ -29,10 +29,7 @@ endpoint http:Client clientEP {
 };
 
 function main(string... args) {
-    http:Request req = new;
-    json msg = { "city": "Colombo" };
-    req.setJsonPayload(msg);
-    var resp = clientEP->post("/staging/hello-ballerina", req);
+    var resp = clientEP->get("/staging/hello-ballerina");
 
     match resp {
         http:Response response => {

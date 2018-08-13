@@ -29,26 +29,12 @@ endpoint http:Listener helloWorldEP {
     }
 };
 
-@http:ServiceConfig
 service hello bind helloWorldEP {
 
-    @http:ResourceConfig {
-        methods: ["GET"]
-    }
-    get(endpoint caller, http:Request req) {
+    sayHello(endpoint caller, http:Request req) {
+        string method = untaint req.method;
         http:Response res = new;
-        res.setPayload("Hello GET Request !");
-        caller->respond(res) but {
-            error e => log:printError("Failed to respond", err = e)
-        };
-    }
-
-    @http:ResourceConfig {
-        methods: ["POST"]
-    }
-    post(endpoint caller, http:Request req) {
-        http:Response res = new;
-        res.setPayload("Hello POST Request !");
+        res.setPayload("Hello " + method + " Request !");
         caller->respond(res) but {
             error e => log:printError("Failed to respond", err = e)
         };

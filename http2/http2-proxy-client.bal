@@ -30,7 +30,7 @@ endpoint http:Client clientEP {
 };
 
 function main(string... args) {
-    var respGet = clientEP->get("/hello/get");
+    var respGet = clientEP->get("/hello/sayHello");
 
     match respGet {
         http:Response response => {
@@ -42,15 +42,18 @@ function main(string... args) {
         error err => log:printError(err.message);
     }
 
-    //var respPost = clientEP->post("/hello/post");
-    //
-    //match respPost {
-    //    http:Response response => {
-    //        match (response.getTextPayload()) {
-    //            string res => log:printInfo(res);
-    //            error err => log:printError(err.message);
-    //        }
-    //    }
-    //    error err => log:printError(err.message);
-    //}
+
+    http:Request req;
+    req.setTextPayload("********************************");
+
+    var respPost = clientEP->post("/hello/sayHello", req);
+    match respPost {
+        http:Response response => {
+            match (response.getTextPayload()) {
+                string res => log:printInfo(res);
+                error err => log:printError(err.message);
+            }
+        }
+        error err => log:printError(err.message);
+    }
 }
