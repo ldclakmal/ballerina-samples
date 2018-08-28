@@ -43,7 +43,7 @@ function main(string... args) {
                "age": 20
            }
     );
-    var respPost = clientEP->post("/create", request = req);
+    var respPost = clientEP->post("/create", req);
 
     match respPost {
         http:Response response => {
