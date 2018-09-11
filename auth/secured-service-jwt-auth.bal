@@ -15,11 +15,34 @@
 // under the License.package auth;
 
 import ballerina/http;
+import ballerina/log;
+import ballerina/runtime;
 
-endpoint http:SecureListener ep {
-    port: 9090
+http:AuthProvider jwtAuthProvider = {
+    scheme: "jwt",
+    issuer: "ballerina",
+    audience: "ballerina.io",
+    certificateAlias: "ballerina",
+    trustStore: {
+        path: "${ballerina.home}/bre/security/ballerinaTruststore.p12",
+        password: "ballerina"
+    }
 };
 
+endpoint http:SecureListener ep {
+    port: 9090,
+    authProviders: [jwtAuthProvider],
+    secureSocket: {
+        keyStore: {
+            path: "${ballerina.home}/bre/security/ballerinaKeystore.p12",
+            password: "ballerina"
+        },
+        trustStore: {
+            path: "${ballerina.home}/bre/security/ballerinaTruststore.p12",
+            password: "ballerina"
+        }
+    }
+};
 @http:ServiceConfig {
     basePath: "/hello",
     authConfig: {
@@ -28,12 +51,12 @@ endpoint http:SecureListener ep {
 }
 service<http:Service> echo bind ep {
     @http:ResourceConfig {
-        methods: ["POST"],
+        methods: ["GET"],
         path: "/sayHello"
     }
     hello(endpoint caller, http:Request req) {
         http:Response res = new;
-        res.setPayload("Hello World !");
+        res.setPayload("Hello, World !");
         _ = caller->respond(res);
     }
 }
