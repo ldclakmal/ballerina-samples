@@ -15,7 +15,8 @@
 // under the License.package sample;
 
 import ballerina/io;
+import ballerina/http;
 
-function main(string... args) {
-    io:println("Hello, Ballerina !");
+public function main(string... args) {
+    io:println("Hello");
 }
