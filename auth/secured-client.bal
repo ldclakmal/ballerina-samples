@@ -19,7 +19,7 @@ import ballerina/http;
 import ballerina/config;
 import ballerina/runtime;
 
-function main(string... args) {
+public function main(string... args) {
     io:println("Hello, Ballerina HTTP AUTH !");
 
     testNoAuth();
@@ -93,25 +93,12 @@ endpoint http:Client jwtClient {
 };
 
 public function testJWTAuth() {
-    setJwtTokenToAuthContext();
+    string token = config:getAsString("JWT_TOKEN");
+    runtime:getInvocationContext().authContext.scheme = "jwt";
+    runtime:getInvocationContext().authContext.authToken = token;
     string requestPath = config:getAsString("JWT_REQUEST_PATH");
     var response = jwtClient->get(requestPath);
 
     io:println("\n--- JWT ---------------------------------------------------------------------------");
     io:println(response);
-}
-
-function setJwtTokenToAuthContext () {
-    string token = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJiYWxsZXJ" +
-        "pbmEiLCJpc3MiOiJiYWxsZXJpbmEiLCJleHAiOjI4MTg0MTUwMTksImlhdCI6MTUyND" +
-        "U3NTAxOSwianRpIjoiZjVhZGVkNTA1ODVjNDZmMmI4Y2EyMzNkMGMyYTNjOWQiLCJhdW" +
-        "QiOlsiYmFsbGVyaW5hIiwiYmFsbGVyaW5hLm9yZyIsImJhbGxlcmluYS5pbyJdLCJzY" +
-        "29wZSI6ImhlbGxvIn0.bNoqz9_DzgeKSK6ru3DnKL7NiNbY32ksXPYrh6Jp0_O3ST7W" +
-        "fXMs9WVkx6Q2TiYukMAGrnMUFrJnrJvZwC3glAmRBrl4BYCbQ0c5mCbgM9qhhCjC1tB" +
-        "A50rjtLAtRW-JTRpCKS0B9_EmlVKfvXPKDLIpM5hnfhOin1R3lJCPspJ2ey_Ho6fDhs" +
-        "KE3DZgssvgPgI9PBItnkipQ3CqqXWhV-RFBkVBEGPDYXTUVGbXhdNOBSwKw5ZoVJrCU" +
-        "iNG5XD0K4sgN9udVTi3EMKNMnVQaq399k6RYPAy3vIhByS6QZtRjOG8X93WJw-9GLiH" +
-        "vcabuid80lnrs2-mAEcstgiHVw";
-    runtime:getInvocationContext().authContext.scheme = "jwt";
-    runtime:getInvocationContext().authContext.authToken = token;
 }
