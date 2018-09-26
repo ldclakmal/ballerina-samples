@@ -22,7 +22,7 @@ endpoint http:Client clientEP {
     url: "http://dummy.restapiexample.com/api/v1"
 };
 
-function main(string... args) {
+public function main(string... args) {
     var resp = clientEP->get("/employee/1");
 
     match resp {

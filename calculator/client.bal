@@ -22,7 +22,7 @@ endpoint http:Client clientEndpoint {
     url: "http://localhost:9090"
 };
 
-function main(string... args) {
+public function main(string... args) {
 
     http:Request req = new;
 

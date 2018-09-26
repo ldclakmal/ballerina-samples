@@ -19,7 +19,7 @@ import ballerina/http;
 import ballerina/io;
 import wso2/github4;
 
-function main(string... args) {
+public function main(string... args) {
     endpoint github4:Client githubClient {
         clientConfig: {
             auth: {

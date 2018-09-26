@@ -18,7 +18,7 @@ import ballerina/io;
 import ballerina/internal;
 import ballerina/config;
 
-function main(string... args) {
+public function main(string... args) {
     io:println("Hello, Ballerina Compression !");
 
     internal:Path srcPath = new("/tmp/compression/src/");

@@ -29,7 +29,7 @@ endpoint http:Client clientEP {
     }
 };
 
-function main(string... args) {
+public function main(string... args) {
     var respGet = clientEP->get("/hello/sayHello");
 
     match respGet {

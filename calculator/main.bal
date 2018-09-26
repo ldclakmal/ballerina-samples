@@ -16,7 +16,7 @@
 
 import ballerina/io;
 
-function main(string... args) {
+public function main(string... args) {
 
     int operation = 0;
     while (operation != 5) {

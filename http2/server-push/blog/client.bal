@@ -22,7 +22,7 @@ endpoint http:Client clientEP {
     httpVersion: "2.0"
 };
 
-function main(string... args) {
+public function main(string... args) {
 
     // Submit a `GET` request.
     http:Request serviceReq = new;
