@@ -2,7 +2,17 @@
 .ballerina/
 target/
 .idea/
-*.log
 *.iml
+
+# Ballerina
 *.conf
 *.toml
+*.log
+
+# CUSTOM files
+tcp_stream
+*.pcapng
+*.zip
+*.png
+*.jar
+*.jmx
