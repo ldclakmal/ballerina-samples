@@ -12,45 +12,30 @@
 // "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
-// under the License.
+// under the License.package http;
 
 import ballerina/io;
 import ballerina/http;
 import ballerina/log;
 
 endpoint http:Client clientEP {
-    url: "http://localhost:9095",
+    url: "https://localhost:9095",
     httpVersion: "2.0",
-    proxy: {
-        host: "127.0.0.1",
-        port: 3128,
-        userName: "admin",
-        password: "123"
+    secureSocket: {
+        trustStore: {
+            path: "${ballerina.home}/bre/security/ballerinaTruststore.p12",
+            password: "ballerina"
+        }
     }
 };
 
 public function main(string... args) {
-    var respGet = clientEP->get("/hello/sayHello");
+    var resp = clientEP->get("/hello/sayHello");
 
-    match respGet {
+    match resp {
         http:Response response => {
-            match (response.getTextPayload()) {
-                string res => log:printInfo(res);
-                error err => log:printError(err.message);
-            }
-        }
-        error err => log:printError(err.message);
-    }
-
-
-    http:Request req;
-    req.setTextPayload("********************************");
-
-    var respPost = clientEP->post("/hello/sayHello", req);
-    match respPost {
-        http:Response response => {
-            match (response.getTextPayload()) {
-                string res => log:printInfo(res);
+            match (response.getJsonPayload()) {
+                json res => io:println(res);
                 error err => log:printError(err.message);
             }
         }

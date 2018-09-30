@@ -14,19 +14,28 @@
 // specific language governing permissions and limitations
 // under the License.package http2;
 
+// To test the sample invoke following commands.
+// 1. ballerina run http2/server.bal
+// 2. curl http://localhost:9095/passthrough
+
 import ballerina/http;
 import ballerina/log;
 
-endpoint http:Client http2serviceClientEP {
-    url: "http://localhost:7090",
+endpoint http:Client backend {
+    url: "http://localhost:9095",
     httpVersion: "2.0"
 };
 
+@http:ServiceConfig {
+    basePath: "/passthrough"
+}
 service<http:Service> hello bind { port: 9095 } {
 
+    @http:ResourceConfig {
+        path: "/"
+    }
     sayHello(endpoint caller, http:Request clientRequest) {
-        var clientResponse =
-        http2serviceClientEP->forward("/http2service", clientRequest);
+        var clientResponse = backend->forward("/hello/sayHello", clientRequest);
         http:Response response = new;
         match clientResponse {
             http:Response resultantResponse => {
@@ -37,29 +46,6 @@ service<http:Service> hello bind { port: 9095 } {
                 response.setPayload(err.message);
             }
         }
-        caller->respond(response) but {
-            error e => log:printError("Error occurred while sending the response", err = e)
-        };
-    }
-}
-
-endpoint http:Listener http2serviceEP {
-    port: 7090,
-    httpVersion: "2.0"
-};
-
-@http:ServiceConfig {
-    basePath: "/http2service"
-}
-service http2service bind http2serviceEP {
-
-    @http:ResourceConfig {
-        path: "/"
-    }
-    http2Resource(endpoint caller, http:Request clientRequest) {
-        http:Response response = new;
-        json msg = "message: response from http2 service";
-        response.setPayload(msg);
         caller->respond(response) but {
             error e => log:printError("Error occurred while sending the response", err = e)
         };

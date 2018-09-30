@@ -36,7 +36,7 @@ public function main(string... args) {
     }
 
     http:Request req;
-    req.setTextPayload("********************************");
+    req.setTextPayload("Hi, Ballerina!");
 
     var respPost = clientEP->post("/hello/sayHello", req);
     match respPost {
