@@ -42,7 +42,7 @@ service http2Service bind http2ServiceEP {
         };
 
         // Send another Push Promise.
-        http:PushPromise promise2 = new(path = "/resource1", method = "GET");
+        http:PushPromise promise2 = new(path = "/resource2", method = "GET");
         caller->promise(promise2) but {
             error e => log:printError("Error occurred while sending the promise2", err = e)
         };
