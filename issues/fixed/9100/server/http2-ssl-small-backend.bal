@@ -23,7 +23,6 @@ service<http:Service> nyseStockQuote bind passthroughEP {
     stocks(endpoint outboundEP, http:Request clientRequest) {
         http:Response res = new;
         json payload = { "foo": "bar" };
-        //json payload = check clientRequest.getJsonPayload();
         res.setJsonPayload(payload);
         _ = outboundEP->respond(res);
     }
