@@ -16,3 +16,4 @@ tcp_stream
 *.png
 *.jar
 *.jmx
+*.jfr
