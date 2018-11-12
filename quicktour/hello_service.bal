@@ -18,7 +18,7 @@ endpoint twitter:Client twitterEP {
 }
 @docker:CopyFiles {
     files:[
-        {source:"./twitter.toml", target:"/home/ballerina/conf/twitter.toml", isBallerinaConf:true}
+        {source:"./twitter.conf", target:"/home/ballerina/conf/twitter.conf", isBallerinaConf:true}
     ]
 }
 @docker:Expose {}

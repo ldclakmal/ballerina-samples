@@ -6,7 +6,6 @@ target/
 
 # Ballerina
 *.conf
-*.toml
 *.log
 
 # CUSTOM files
