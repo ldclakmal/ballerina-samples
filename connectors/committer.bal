@@ -17,8 +17,8 @@ function main (string... args) {
         error err => { io:println(err); }
     }
 
-    string userEmail = "chanakal@wso2.com";
-    string[] excludeEmails = ["vacation-group@wso2.com"];
+    string userEmail = "chanakal@abc.com";
+    string[] excludeEmails = ["mygroup@abc.com"];
     var emailDetails = committerReportClient->printEmailList(userEmail, excludeEmails);
     match emailDetails {
         () => {}
