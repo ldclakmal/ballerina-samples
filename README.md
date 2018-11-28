@@ -4,7 +4,7 @@ Sample codes written with [Ballerina](https://ballerina.io) programming language
 
 ### Compatibility
 
-**Ballerina version:** 0.983.0
+**Ballerina version:** 0.985.0
 
 ## How to run
 
