@@ -1,20 +1,16 @@
 import ballerina/http;
-import ballerina/log;
 
-endpoint http:Listener backendEP {
-    port: 9191,
-    httpVersion: "2.0"
-};
+listener http:Listener backendEP = new(9191, config = { httpVersion: "2.0" });
 
 @http:ServiceConfig {
     basePath: "/backend"
 }
-service backendService bind backendEP {
+service backendService on backendEP {
 
     @http:ResourceConfig {
         path: "/"
     }
-    backend(endpoint caller, http:Request req) {
+    resource function backend(http:Caller caller, http:Request req) {
 
         // Send a Push Promises for 2 resources with 2 methods.
         http:PushPromise promise1 = new(path = "/resource1", method = "GET");

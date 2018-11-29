@@ -1,14 +1,10 @@
 import ballerina/http;
-import ballerina/log;
 
-endpoint http:Listener helloWorldEP {
-    port: 9095,
-    httpVersion: "2.0"
-};
+listener http:Listener helloWorldEP = new(9095, config = { httpVersion: "2.0" });
 
-service hello bind helloWorldEP {
+service hello on helloWorldEP {
 
-    sayHello(endpoint caller, http:Request req) {
+    resource function sayHello(http:Caller caller, http:Request req) {
 
         // Send a Push Promises for 2 resources with 2 methods.
         http:PushPromise promise1 = new(path = "/resource1", method = "GET");

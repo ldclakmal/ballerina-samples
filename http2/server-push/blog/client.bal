@@ -1,12 +1,9 @@
 import ballerina/http;
 import ballerina/log;
 
-endpoint http:Client clientEP {
-    url: "http://localhost:9095",
-    httpVersion: "2.0"
-};
+http:Client clientEP = new("http://localhost:9095", config = { httpVersion: "2.0" });
 
-public function main() {
+public function main() returns error? {
 
     // Submit a `GET` request.
     http:Request serviceReq = new;
@@ -33,4 +30,5 @@ public function main() {
         // Check if more promises exists.
         hasPromise = clientEP->hasPromise(httpFuture);
     }
+    return ();
 }
