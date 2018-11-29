@@ -18,7 +18,7 @@ endpoint http:Client clientEP {
     }
 };
 
-public function main(string... args) {
+public function main() {
     var resp = clientEP->get("/staging/hello-ballerina");
 
     match resp {

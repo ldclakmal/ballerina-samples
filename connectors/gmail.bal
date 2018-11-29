@@ -15,7 +15,7 @@ endpoint gmail:Client gmailEP {
     }
 };
 
-public function main(string... args) {
+public function main() {
     string userId = "me";
     gmail:MessageRequest messageRequest;
     messageRequest.recipient = config:getAsString("RECIPIENT");

@@ -11,7 +11,7 @@ string clientId = "<client_id>";
 string clientSecret = "<client_secret>";
 string refreshUrl = "<refreshUrl>";
 
-public function main(string... args) {
+public function main() {
     endpoint sf:Client salesforceClient {
         clientConfig: {
             url: url,

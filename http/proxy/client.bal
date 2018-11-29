@@ -12,7 +12,7 @@ endpoint http:Client clientEP {
     }
 };
 
-public function main(string... args) {
+public function main() {
     var resp1 = clientEP->get("/employee/1");
 
     match resp1 {

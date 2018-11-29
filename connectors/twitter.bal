@@ -2,7 +2,7 @@ import ballerina/io;
 import ballerina/config;
 import wso2/twitter;
 
-public function main(string... args) {
+public function main() {
     endpoint twitter:Client twitterClient {
         clientId: config:getAsString("CLIENT_ID"),
         clientSecret: config:getAsString("CLIENT_SECRET"),

@@ -6,7 +6,7 @@ endpoint http:Client clientEP {
     url: "http://dummy.restapiexample.com/api/v1"
 };
 
-public function main(string... args) {
+public function main() {
     var resp = clientEP->get("/employee/1");
 
     match resp {

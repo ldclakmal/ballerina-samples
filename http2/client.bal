@@ -6,7 +6,7 @@ endpoint http:Client clientEP {
     httpVersion: "2.0"
 };
 
-public function main(string... args) {
+public function main() {
     var respGet = clientEP->get("/hello/sayHello");
 
     match respGet {

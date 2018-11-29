@@ -2,7 +2,7 @@ import ballerina/config;
 import ballerina/io;
 import wso2/gsheets4;
 
-public function main(string... args) {
+public function main() {
     endpoint gsheets4:Client spreadsheetClientEP {
         clientConfig: {
             auth: {

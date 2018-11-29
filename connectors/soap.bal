@@ -8,7 +8,7 @@ endpoint soap:Client soapClient {
     }
 };
 
-public function main(string... args) {
+public function main() {
     log:printInfo("soapClient -> sendReceive()");
 
     xml body = xml `<m0:getQuote xmlns:m0="http://services.samples">

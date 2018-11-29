@@ -13,7 +13,7 @@ endpoint http:Client clientEP {
     }
 };
 
-public function main(string... args) {
+public function main() {
     var respGet = clientEP->get("/hello/sayHello");
 
     match respGet {
