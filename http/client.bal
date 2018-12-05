@@ -1,25 +1,23 @@
-import ballerina/io;
 import ballerina/http;
+import ballerina/io;
 import ballerina/log;
 
-endpoint http:Client clientEP {
-    url: "http://dummy.restapiexample.com/api/v1"
-};
+http:Client clientEP = new("http://dummy.restapiexample.com/api/v1");
 
-public function main(string... args) {
-    var resp = clientEP->get("/employee/1");
-
-    match resp {
-        http:Response response => {
-            match (response.getTextPayload()) {
-                string res => io:println("--- GET Response : " + res);
-                error err => log:printError(err.message);
-            }
+public function main() {
+    var response = clientEP->get("/employee/1");
+    if (response is http:Response) {
+        var payload = response.getTextPayload();
+        if (payload is string) {
+            io:println("--- GET Response : " + payload);
+        } else {
+            log:printError(<string>payload.detail().message);
         }
-        error err => log:printError(err.message);
+    } else {
+        log:printError(<string>response.detail().message);
     }
 
-    http:Request req;
+    http:Request req = new;
     req.setJsonPayload(
            {
                "name": "sample",
@@ -28,14 +26,14 @@ public function main(string... args) {
            }
     );
     var respPost = clientEP->post("/create", req);
-
-    match respPost {
-        http:Response response => {
-            match (response.getTextPayload()) {
-                string res => io:println("--- POST Response : " + res);
-                error err => log:printError(err.message);
-            }
+    if (respPost is http:Response) {
+        var payload = respPost.getTextPayload();
+        if (payload is string) {
+            io:println("--- POST Response : " + payload);
+        } else {
+            log:printError(<string>payload.detail().message);
         }
-        error err => log:printError(err.message);
+    } else {
+        log:printError(<string>respPost.detail().message);
     }
 }

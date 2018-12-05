@@ -1,9 +1,8 @@
-import ballerina/io;
 import ballerina/http;
+import ballerina/io;
 import ballerina/log;
 
-endpoint http:Client clientEP {
-    url: "https://voxd8b15ja.execute-api.us-west-2.amazonaws.com",
+http:Client clientEP = new("http://dummy.restapiexample.com/api/v1", config = {
     secureSocket: {
         trustStore: {
             path: "${ballerina.home}/bre/security/ballerinaTruststore.p12",
@@ -16,18 +15,18 @@ endpoint http:Client clientEP {
         userName: "admin",
         password: "123"
     }
-};
+});
 
-public function main(string... args) {
-    var resp = clientEP->get("/staging/hello-ballerina");
-
-    match resp {
-        http:Response response => {
-            match (response.getJsonPayload()) {
-                json res => io:println(res);
-                error err => log:printError(err.message);
-            }
+public function main() {
+    var response = clientEP->get("/employee/1");
+    if (response is http:Response) {
+        var payload = response.getTextPayload();
+        if (payload is string) {
+            io:println(payload);
+        } else {
+            log:printError(<string>payload.detail().message);
         }
-        error err => log:printError(err.message);
+    } else {
+        log:printError(<string>response.detail().message);
     }
 }

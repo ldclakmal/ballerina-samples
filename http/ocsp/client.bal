@@ -1,9 +1,8 @@
-import ballerina/io;
 import ballerina/http;
+import ballerina/io;
 import ballerina/log;
 
-endpoint http:Client clientEP {
-    url: "https://b7a.fun",
+http:Client clientEP = new("https://b7a.fun", config = {
     secureSocket: {
         trustStore: {
             path: "${ballerina.home}/bre/security/ballerinaTruststore.p12",
@@ -11,18 +10,18 @@ endpoint http:Client clientEP {
         },
         ocspStapling: true
     }
-};
+});
 
-public function main(string... args) {
-    var resp = clientEP->get("/");
-
-    match resp {
-        http:Response response => {
-            match (response.getTextPayload()) {
-                string res => io:println(res);
-                error err => log:printError(err.message);
-            }
+public function main() {
+    var response = clientEP->get("/");
+    if (response is http:Response) {
+        var payload = response.getTextPayload();
+        if (payload is string) {
+            io:println(payload);
+        } else {
+            log:printError(<string>payload.detail().message);
         }
-        error err => log:printError(err.message);
+    } else {
+        log:printError(<string>response.detail().message);
     }
 }

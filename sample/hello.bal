@@ -1,6 +1,5 @@
 import ballerina/io;
-import ballerina/http;
 
-public function main(string... args) {
+public function main() {
     io:println("Hello");
 }

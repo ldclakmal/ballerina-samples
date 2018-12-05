@@ -1,35 +1,33 @@
 import ballerina/http;
 import ballerina/log;
 
-endpoint http:Client clientEP {
-    url: "http://localhost:9095",
-    httpVersion: "2.0"
-};
+http:Client clientEP = new("http://localhost:9095", config = { httpVersion: "2.0" });
 
-public function main(string... args) {
+public function main() {
     var respGet = clientEP->get("/hello/sayHello");
-
-    match respGet {
-        http:Response response => {
-            match (response.getTextPayload()) {
-                string res => log:printInfo(res);
-                error err => log:printError(err.message);
-            }
+    if (respGet is http:Response) {
+        var payload = respGet.getTextPayload();
+        if (payload is string) {
+            log:printInfo(payload);
+        } else {
+            log:printError(<string>payload.detail().message);
         }
-        error err => log:printError(err.message);
+    } else {
+        log:printError(<string>respGet.detail().message);
     }
 
-    http:Request req;
+    http:Request req = new;
     req.setTextPayload("Hi, Ballerina!");
 
     var respPost = clientEP->post("/hello/sayHello", req);
-    match respPost {
-        http:Response response => {
-            match (response.getTextPayload()) {
-                string res => log:printInfo(res);
-                error err => log:printError(err.message);
-            }
+    if (respPost is http:Response) {
+        var payload = respPost.getTextPayload();
+        if (payload is string) {
+            log:printInfo(payload);
+        } else {
+            log:printError(<string>payload.detail().message);
         }
-        error err => log:printError(err.message);
+    } else {
+        log:printError(<string>respPost.detail().message);
     }
 }

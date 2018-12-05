@@ -1,19 +1,11 @@
-import ballerina/io;
 import ballerina/http;
-import ballerina/log;
 
-endpoint http:Listener helloWorldEP {
-    port: 9095
-};
+listener http:Listener helloWorldEP = new(9090);
 
-service hello bind helloWorldEP {
+service hello on helloWorldEP {
 
-    sayHello(endpoint caller, http:Request req) {
-        string method = untaint req.method;
-        http:Response res = new;
-        res.setPayload("Hello " + method + " Request !");
-        caller->respond(res) but {
-            error e => log:printError("Failed to respond", err = e)
-        };
+    resource function sayHello(http:Caller caller, http:Request req) {
+        json j = { msg: "Hello " + untaint req.method + " Request !" };
+        _ = caller->respond(j);
     }
 }

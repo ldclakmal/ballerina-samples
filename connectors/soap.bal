@@ -2,13 +2,9 @@ import ballerina/io;
 import ballerina/log;
 import wso2/soap;
 
-endpoint soap:Client soapClient {
-    clientConfig: {
-        url: "http://localhost:9000"
-    }
-};
+soap:Client soapClient = new("http://localhost:9000");
 
-public function main(string... args) {
+public function main() {
     log:printInfo("soapClient -> sendReceive()");
 
     xml body = xml `<m0:getQuote xmlns:m0="http://services.samples">
@@ -22,9 +18,10 @@ public function main(string... args) {
         payload: body
     };
 
-    var details = soapClient->sendReceive("/services/SimpleStockQuoteService", soapRequest);
-    match details {
-        soap:SoapResponse soapResponse => io:println(soapResponse);
-        soap:SoapError soapError => io:println(soapError);
+    var response = soapClient->sendReceive("/services/SimpleStockQuoteService", soapRequest);
+    if (response is soap:SoapResponse) {
+        io:println(response);
+    } else {
+        log:printError(<string>response.detail().message);
     }
 }

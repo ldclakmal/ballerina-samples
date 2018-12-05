@@ -3,35 +3,26 @@
 // 2. curl http://localhost:9095/passthrough
 
 import ballerina/http;
-import ballerina/log;
 
-endpoint http:Client backend {
-    url: "http://localhost:9095",
-    httpVersion: "2.0"
-};
+http:Client backend = new("http://localhost:9095", config = { httpVersion: "2.0" });
 
 @http:ServiceConfig {
     basePath: "/passthrough"
 }
-service<http:Service> hello bind { port: 9095 } {
+service hello on new http:Listener(9095) {
 
     @http:ResourceConfig {
         path: "/"
     }
-    sayHello(endpoint caller, http:Request clientRequest) {
+    resource function sayHello(http:Caller caller, http:Request clientRequest) {
         var clientResponse = backend->forward("/hello/sayHello", clientRequest);
         http:Response response = new;
-        match clientResponse {
-            http:Response resultantResponse => {
-                response = resultantResponse;
-            }
-            error err => {
-                response.statusCode = 500;
-                response.setPayload(err.message);
-            }
+        if (clientResponse is http:Response) {
+            response = clientResponse;
+        } else {
+            response.statusCode = 500;
+            response.setPayload(<string>clientResponse.detail().message);
         }
-        caller->respond(response) but {
-            error e => log:printError("Error occurred while sending the response", err = e)
-        };
+        _ = caller->respond(response);
     }
 }

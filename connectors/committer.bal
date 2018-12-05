@@ -1,27 +1,24 @@
 import ballerina/io;
 import chanakal/committer;
 
-endpoint committer:Client committerReportClient {};
+committer:Client committerReportClient = new();
 
-function main (string... args) {
+public function main() {
     string githubUser = "ldclakmal";
     var prDetails = committerReportClient->printPullRequestList(githubUser, committer:STATE_ALL);
-    match prDetails {
-        () => {}
-        error err => { io:println(err); }
+    if (prDetails is error) {
+        io:println(prDetails);
     }
 
     var issueDetails = committerReportClient->printIssueList(githubUser, committer:STATE_ALL);
-    match issueDetails {
-        () => {}
-        error err => { io:println(err); }
+    if (issueDetails is error) {
+        io:println(issueDetails);
     }
 
     string userEmail = "chanakal@abc.com";
     string[] excludeEmails = ["mygroup@abc.com"];
     var emailDetails = committerReportClient->printEmailList(userEmail, excludeEmails);
-    match emailDetails {
-        () => {}
-        error err => { io:println(err); }
+    if (emailDetails is error) {
+        io:println(emailDetails);
     }
 }

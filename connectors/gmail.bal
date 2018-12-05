@@ -3,8 +3,7 @@ import ballerina/test;
 import ballerina/config;
 import wso2/gmail;
 
-//Create an endpoint to use Gmail Connector
-endpoint gmail:Client gmailEP {
+gmail:Client gmailEP = new({
     clientConfig: {
         auth: {
             accessToken: config:getAsString("ACCESS_TOKEN"),
@@ -13,9 +12,9 @@ endpoint gmail:Client gmailEP {
             refreshToken: config:getAsString("REFRESH_TOKEN")
         }
     }
-};
+});
 
-public function main(string... args) {
+public function main() {
     string userId = "me";
     gmail:MessageRequest messageRequest;
     messageRequest.recipient = config:getAsString("RECIPIENT");
@@ -30,27 +29,25 @@ public function main(string... args) {
 
     string messageId;
     string threadId;
-    match sendMessageResponse {
-        (string, string) sendStatus => {
-            //If successful, returns the message ID and thread ID.
-            (messageId, threadId) = sendStatus;
-            io:println("Sent Message ID: " + messageId);
-            io:println("Sent Thread ID: " + threadId);
-        }
-
-        //Unsuccessful attempts return a Gmail error.
-        gmail:GmailError e => io:println(e);
+    if (sendMessageResponse is (string, string)) {
+        (messageId, threadId) = sendMessageResponse;
+        io:println("Sent Message ID: " + messageId);
+        io:println("Sent Thread ID: " + threadId);
+    } else {
+        io:println(e);
     }
 
-    var response = gmailEP->readMessage(userId, untaint messageId);
-    match response {
-        gmail:Message m => io:println("Sent Message: " + m.id);
-        gmail:GmailError e => io:println(e);
+    var readResponse = gmailEP->readMessage(userId, untaint messageId);
+    if (readResponse is gmail:Message) {
+        io:println("Sent Message: " + readResponse.id);
+    } else {
+        io:println(e);
     }
 
-    var delete = gmailEP->deleteMessage(userId, untaint messageId);
-    match delete {
-        boolean success => io:println("Message deletion success!");
-        gmail:GmailError e => io:println(e);
+    var deleteResponse = gmailEP->deleteMessage(userId, untaint messageId);
+    if (deleteResponse is boolean) {
+        io:println("Message deletion success!");
+    } else {
+        io:println(e);
     }
 }
