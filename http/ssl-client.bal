@@ -2,7 +2,7 @@ import ballerina/http;
 import ballerina/io;
 import ballerina/log;
 
-http:Client clientEP = new("https://voxd8b15ja.execute-api.us-west-2.amazonaws.com", config = {
+http:Client clientEP = new("https://postman-echo.com", config = {
     secureSocket: {
         trustStore: {
             path: "${ballerina.home}/bre/security/ballerinaTruststore.p12",
@@ -12,10 +12,10 @@ http:Client clientEP = new("https://voxd8b15ja.execute-api.us-west-2.amazonaws.c
 });
 
 public function main() {
-    var response = clientEP->get("/staging/hello-ballerina");
+    var response = clientEP->get("/time/now");
     if (response is http:Response) {
-        var payload = response.getJsonPayload();
-        if (payload is json) {
+        var payload = response.getTextPayload();
+        if (payload is string) {
             io:println(payload);
         } else {
             log:printError(<string>payload.detail().message);
