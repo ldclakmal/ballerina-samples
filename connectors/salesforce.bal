@@ -11,32 +11,25 @@ string clientId = "<client_id>";
 string clientSecret = "<client_secret>";
 string refreshUrl = "<refreshUrl>";
 
+sf:Client salesforceClient = new({
+    clientConfig: {
+        url: url,
+        auth: {
+            scheme: http:OAUTH2,
+            accessToken: accessToken,
+            refreshToken: refreshToken,
+            clientId: clientId,
+            clientSecret: clientSecret,
+            refreshUrl: refreshUrl
+        }
+    }
+});
+
 public function main() {
-    endpoint sf:Client salesforceClient {
-        clientConfig: {
-            url: url,
-            auth: {
-                scheme: http:OAUTH2,
-                accessToken: accessToken,
-                refreshToken: refreshToken,
-                clientId: clientId,
-                clientSecret: clientSecret,
-                refreshUrl: refreshUrl
-            }
-        }
-    };
-
-    //Call the Salesforce connectors function getAvailableApiVersions().
-    json|sf:SalesforceConnectorError response = salesforceClient->getAvailableApiVersions();
-    match response {
-        //if successful, returns JSON result
-        json jsonRes => {
-            io:println(jsonRes);
-        }
-
-        //if unsuccessful, returns an error of type sfdc37:SalesforceConnectorError
-        sf:SalesforceConnectorError err => {
-            io:println(err);
-        }
+    var response = salesforceClient->getAvailableApiVersions();
+    if (response is json) {
+        io:println(response);
+    } else {
+        log:printError(<string>response.detail().message);
     }
 }
