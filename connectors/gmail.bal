@@ -1,27 +1,27 @@
-import ballerina/io;
-import ballerina/test;
-import ballerina/http;
 import ballerina/config;
+import ballerina/io;
+import ballerina/http;
+import ballerina/log;
 import wso2/gmail;
 
 gmail:Client gmailEP = new({
-    clientConfig: {
-        auth: {
-            scheme: http:OAUTH2,
-            accessToken: config:getAsString("ACCESS_TOKEN"),
-            clientId: config:getAsString("CLIENT_ID"),
-            clientSecret: config:getAsString("CLIENT_SECRET"),
-            refreshToken: config:getAsString("REFRESH_TOKEN")
+        clientConfig: {
+            auth: {
+                scheme: http:OAUTH2,
+                accessToken: config:getAsString("GMAIL_ACCESS_TOKEN"),
+                clientId: config:getAsString("GMAIL_CLIENT_ID"),
+                clientSecret: config:getAsString("GMAIL_CLIENT_SECRET"),
+                refreshToken: config:getAsString("GMAIL_REFRESH_TOKEN")
+            }
         }
-    }
-});
+    });
 
 public function main() {
     string userId = "me";
     gmail:MessageRequest messageRequest = {};
-    messageRequest.recipient = config:getAsString("RECIPIENT");
-    messageRequest.sender = config:getAsString("SENDER");
-    messageRequest.cc = config:getAsString("CC");
+    messageRequest.recipient = config:getAsString("GMAIL_RECIPIENT");
+    messageRequest.sender = config:getAsString("GMAIL_SENDER");
+    messageRequest.cc = config:getAsString("GMAIL_CC");
     messageRequest.subject = "Email-Subject";
     messageRequest.messageBody = "Email Message Body Text";
     //Set the content type of the mail as TEXT_PLAIN or TEXT_HTML.
@@ -36,20 +36,20 @@ public function main() {
         io:println("Sent Message ID: " + messageId);
         io:println("Sent Thread ID: " + threadId);
     } else {
-        io:println(sendMessageResponse);
+        log:printError(<string>sendMessageResponse.detail().message);
     }
 
     var readResponse = gmailEP->readMessage(userId, untaint messageId);
     if (readResponse is gmail:Message) {
         io:println("Sent Message: " + readResponse.id);
     } else {
-        io:println(readResponse);
+        log:printError(<string>readResponse.detail().message);
     }
 
     var deleteResponse = gmailEP->deleteMessage(userId, untaint messageId);
     if (deleteResponse is boolean) {
         io:println("Message deletion success!");
     } else {
-        io:println(deleteResponse);
+        log:printError(<string>deleteResponse.detail().message);
     }
 }

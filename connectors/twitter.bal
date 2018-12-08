@@ -1,13 +1,14 @@
-import ballerina/io;
 import ballerina/config;
+import ballerina/io;
+import ballerina/log;
 import wso2/twitter;
 
 twitter:Client twitterClient = new({
-    clientId: config:getAsString("CLIENT_ID"),
-    clientSecret: config:getAsString("CLIENT_SECRET"),
-    accessToken: config:getAsString("ACCESS_TOKEN"),
-    accessTokenSecret: config:getAsString("ACCESS_TOKEN_SECRET")
-});
+        clientId: config:getAsString("TWITTER_CLIENT_ID"),
+        clientSecret: config:getAsString("TWITTER_CLIENT_SECRET"),
+        accessToken: config:getAsString("TWITTER_ACCESS_TOKEN"),
+        accessTokenSecret: config:getAsString("TWITTER_ACCESS_TOKEN_SECRET")
+    });
 
 public function main() {
     string status = "Hello Ballerina!";
@@ -18,6 +19,6 @@ public function main() {
         io:println("Tweet ID: " + tweetId);
         io:println("Tweet: " + text);
     } else {
-        io:println(<string>twitterStatus.detail().message);
+        log:printError(<string>twitterStatus.detail().message);
     }
 }
