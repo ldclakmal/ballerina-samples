@@ -8,10 +8,10 @@ gsheets4:Client spreadsheetClientEP = new({
         clientConfig: {
             auth: {
                 scheme: http:OAUTH2,
-                accessToken: config:getAsString("GSHEET_ACCESS_TOKEN"),
-                refreshToken: config:getAsString("GSHEET_REFRESH_TOKEN"),
-                clientId: config:getAsString("GSHEET_CLIENT_ID"),
-                clientSecret: config:getAsString("GSHEET_CLIENT_SECRET")
+                accessToken: config:getAsString("GOOGLE_ACCESS_TOKEN"),
+                refreshToken: config:getAsString("GOOGLE_REFRESH_TOKEN"),
+                clientId: config:getAsString("GOOGLE_CLIENT_ID"),
+                clientSecret: config:getAsString("GOOGLE_CLIENT_SECRET")
             }
         }
     });

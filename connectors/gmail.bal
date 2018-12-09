@@ -8,10 +8,10 @@ gmail:Client gmailEP = new({
         clientConfig: {
             auth: {
                 scheme: http:OAUTH2,
-                accessToken: config:getAsString("GMAIL_ACCESS_TOKEN"),
-                clientId: config:getAsString("GMAIL_CLIENT_ID"),
-                clientSecret: config:getAsString("GMAIL_CLIENT_SECRET"),
-                refreshToken: config:getAsString("GMAIL_REFRESH_TOKEN")
+                accessToken: config:getAsString("GOOGLE_ACCESS_TOKEN"),
+                clientId: config:getAsString("GOOGLE_CLIENT_ID"),
+                clientSecret: config:getAsString("GOOGLE_CLIENT_SECRET"),
+                refreshToken: config:getAsString("GOOGLE_REFRESH_TOKEN")
             }
         }
     });
