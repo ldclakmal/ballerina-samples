@@ -2,7 +2,7 @@ import ballerina/http;
 import ballerina/log;
 
 http:Client clientEP = new("http://localhost:9090");
-//http:Client clientEP = new("http://localhost:9090",
+//http:Client clientEP = new("https://localhost:9090",
 //    config = {
 //        secureSocket: {
 //            trustStore: {
@@ -12,14 +12,8 @@ http:Client clientEP = new("http://localhost:9090");
 //        }
 //    }
 //);
-
-
-// --------------------------------------
-//            HTTP/2 clients
-// --------------------------------------
-
 //http:Client clientEP = new("http://localhost:9090", config = { httpVersion: "2.0" });
-//http:Client clientEP = new("http://localhost:9090",
+//http:Client clientEP = new("https://localhost:9090",
 //    config = {
 //        httpVersion: "2.0",
 //        secureSocket: {

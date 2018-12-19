@@ -2,7 +2,8 @@ import ballerina/http;
 import ballerina/log;
 
 listener http:Listener passthroughListener = new(9090);
-//listener http:Listener passthroughListener = new(9090, config = {
+//listener http:Listener passthroughListener = new(9090,
+//    config = {
 //        secureSocket: {
 //            keyStore: {
 //                path: "${ballerina.home}/bre/security/ballerinaKeystore.p12",
@@ -11,14 +12,9 @@ listener http:Listener passthroughListener = new(9090);
 //        }
 //    }
 //);
-
-
-// --------------------------------------
-//            HTTP/2 listeners
-// --------------------------------------
-
 //listener http:Listener passthroughListener = new(9090, config = { httpVersion: "2.0" });
-//listener http:Listener passthroughListener = new(9090, config = {
+//listener http:Listener passthroughListener = new(9090,
+//    config = {
 //        httpVersion: "2.0",
 //        secureSocket: {
 //            keyStore: {
@@ -32,7 +28,7 @@ listener http:Listener passthroughListener = new(9090);
 // --------------------------------------------------------------------------------------------------------------------
 
 http:Client passthroughClient = new("http://localhost:9191");
-//http:Client passthroughClient = new("http://localhost:9191",
+//http:Client passthroughClient = new("https://localhost:9191",
 //    config = {
 //        secureSocket: {
 //            trustStore: {
@@ -42,14 +38,8 @@ http:Client passthroughClient = new("http://localhost:9191");
 //        }
 //    }
 //);
-
-
-// --------------------------------------
-//            HTTP/2 clients
-// --------------------------------------
-
 //http:Client passthroughClient = new("http://localhost:9191", config = { httpVersion: "2.0" });
-//http:Client passthroughClient = new("http://localhost:9191",
+//http:Client passthroughClient = new("https://localhost:9191",
 //    config = {
 //        httpVersion: "2.0",
 //        secureSocket: {

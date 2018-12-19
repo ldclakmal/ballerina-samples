@@ -13,12 +13,6 @@ listener http:Listener listenerEP = new(9191);
 //        }
 //    }
 //);
-
-
-// --------------------------------------
-//            HTTP/2 listeners
-// --------------------------------------
-
 //listener http:Listener listenerEP = new(9191, config = { httpVersion: "2.0" });
 //listener http:Listener listenerEP = new(9191,
 //    config = {
