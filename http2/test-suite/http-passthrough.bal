@@ -56,7 +56,7 @@ service passthroughService on passthroughListener {
 
     @http:ResourceConfig { path: "/" }
     resource function passthrough(http:Caller outboundEP, http:Request clientRequest) {
-        var response = passthroughClient->forward("/nyseStock/stocks", clientRequest);
+        var response = passthroughClient->forward("/hello/sayHello", clientRequest);
         if (response is http:Response) {
             _ = outboundEP->respond(response);
         } else {
