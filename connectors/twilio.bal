@@ -10,17 +10,28 @@ twilio:Client twilioClient = new({
     });
 
 public function main() {
-    var response = twilioClient->getAccountDetails();
-    if (response is twilio:Account) {
+    var accountDetails = twilioClient->getAccountDetails();
+    if (accountDetails is twilio:Account) {
+        io:println(accountDetails);
+    } else {
+        log:printError(<string>accountDetails.detail().message);
+    }
+
+    var authyDetails = twilioClient->getAuthyAppDetails();
+    if (authyDetails is twilio:AuthyAppDetailsResponse) {
+        io:println(authyDetails);
+    } else {
+        log:printError(<string>authyDetails.detail().message);
+    }
+
+    string fromMobile = config:getAsString("TWILIO_SAMPLE_FROM_MOBILE");
+    string toMobile = config:getAsString("TWILIO_SAMPLE_TO_MOBILE");
+    string message = config:getAsString("TWILIO_SAMPLE_MESSAGE");
+
+    var response = twilioClient->sendSms(fromMobile, toMobile, message);
+    if (response is twilio:SmsResponse) {
         io:println(response);
     } else {
         log:printError(<string>response.detail().message);
-    }
-
-    var details = twilioClient->getAuthyAppDetails();
-    if (details is twilio:AuthyAppDetailsResponse) {
-        io:println(details);
-    } else {
-        log:printError(<string>details.detail().message);
     }
 }
