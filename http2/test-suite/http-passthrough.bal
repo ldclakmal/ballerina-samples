@@ -1,7 +1,10 @@
 import ballerina/http;
 import ballerina/log;
 
-listener http:Listener passthroughListener = new(9090);
+// --- HTTP/1.1 Listener
+//listener http:Listener passthroughListener = new(9090);
+
+// --- HTTP/1.1 Listener (SSL enabled)
 //listener http:Listener passthroughListener = new(9090,
 //    config = {
 //        secureSocket: {
@@ -12,22 +15,29 @@ listener http:Listener passthroughListener = new(9090);
 //        }
 //    }
 //);
+
+// --- HTTP/2 Listener
 //listener http:Listener passthroughListener = new(9090, config = { httpVersion: "2.0" });
-//listener http:Listener passthroughListener = new(9090,
-//    config = {
-//        httpVersion: "2.0",
-//        secureSocket: {
-//            keyStore: {
-//                path: "${ballerina.home}/bre/security/ballerinaKeystore.p12",
-//                password: "ballerina"
-//            }
-//        }
-//    }
-//);
+
+// --- HTTP/2 Listener (SSL enabled)
+listener http:Listener passthroughListener = new(9090,
+    config = {
+        httpVersion: "2.0",
+        secureSocket: {
+            keyStore: {
+                path: "${ballerina.home}/bre/security/ballerinaKeystore.p12",
+                password: "ballerina"
+            }
+        }
+    }
+);
 
 // --------------------------------------------------------------------------------------------------------------------
 
-http:Client passthroughClient = new("http://localhost:9191");
+// --- HTTP/1.1 Client
+//http:Client passthroughClient = new("http://localhost:9191");
+
+// --- HTTP/1.1 Client (SSL enabled)
 //http:Client passthroughClient = new("https://localhost:9191",
 //    config = {
 //        secureSocket: {
@@ -38,18 +48,25 @@ http:Client passthroughClient = new("http://localhost:9191");
 //        }
 //    }
 //);
+
+// --- HTTP/2 Client
 //http:Client passthroughClient = new("http://localhost:9191", config = { httpVersion: "2.0" });
-//http:Client passthroughClient = new("https://localhost:9191",
-//    config = {
-//        httpVersion: "2.0",
-//        secureSocket: {
-//            trustStore: {
-//                path: "${ballerina.home}/bre/security/ballerinaTruststore.p12",
-//                password: "ballerina"
-//            }
-//        }
-//    }
-//);
+
+// --- HTTP/2 Client (SSL enabled)
+http:Client passthroughClient = new("https://localhost:9191",
+    config = {
+        httpVersion: "2.0",
+        secureSocket: {
+            trustStore: {
+                path: "${ballerina.home}/bre/security/ballerinaTruststore.p12",
+                password: "ballerina"
+            }
+        },
+        connectionThrottling: {
+            maxActiveStreamsPerConnection: 1000
+        }
+    }
+);
 
 @http:ServiceConfig { basePath: "/passthrough" }
 service passthroughService on passthroughListener {

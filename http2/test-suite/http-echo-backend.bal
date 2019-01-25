@@ -2,7 +2,10 @@ import ballerina/http;
 import ballerina/log;
 import ballerina/mime;
 
-listener http:Listener listenerEP = new(9191);
+// --- HTTP/1.1 Listener
+//listener http:Listener listenerEP = new(9191);
+
+// --- HTTP/1.1 Listener (SSL enabled)
 //listener http:Listener listenerEP = new(9191,
 //    config = {
 //        secureSocket: {
@@ -13,18 +16,22 @@ listener http:Listener listenerEP = new(9191);
 //        }
 //    }
 //);
+
+// --- HTTP/2 Listener
 //listener http:Listener listenerEP = new(9191, config = { httpVersion: "2.0" });
-//listener http:Listener listenerEP = new(9191,
-//    config = {
-//        httpVersion: "2.0",
-//        secureSocket: {
-//            keyStore: {
-//                path: "${ballerina.home}/bre/security/ballerinaKeystore.p12",
-//                password: "ballerina"
-//            }
-//        }
-//    }
-//);
+
+// --- HTTP/2 Listener (SSL enabled)
+listener http:Listener listenerEP = new(9191,
+    config = {
+        httpVersion: "2.0",
+        secureSocket: {
+            keyStore: {
+                path: "${ballerina.home}/bre/security/ballerinaKeystore.p12",
+                password: "ballerina"
+            }
+        }
+    }
+);
 
 service hello on listenerEP {
 

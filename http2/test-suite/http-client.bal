@@ -1,7 +1,10 @@
 import ballerina/http;
 import ballerina/log;
 
+// --- HTTP/1.1 Client
 http:Client clientEP = new("http://localhost:9090");
+
+// --- HTTP/1.1 Client (SSL enabled)
 //http:Client clientEP = new("https://localhost:9090",
 //    config = {
 //        secureSocket: {
@@ -12,7 +15,11 @@ http:Client clientEP = new("http://localhost:9090");
 //        }
 //    }
 //);
+
+// --- HTTP/2 Client
 //http:Client clientEP = new("http://localhost:9090", config = { httpVersion: "2.0" });
+
+// --- HTTP/2 Client (SSL enabled)
 //http:Client clientEP = new("https://localhost:9090",
 //    config = {
 //        httpVersion: "2.0",
