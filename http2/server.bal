@@ -1,6 +1,6 @@
 import ballerina/http;
 
-listener http:Listener helloWorldEP = new(9095, config = { httpVersion: "2.0" });
+listener http:Listener helloWorldEP = new(9191, config = { httpVersion: "2.0" });
 
 service hello on helloWorldEP {
 

@@ -1,7 +1,7 @@
 import ballerina/http;
 import ballerina/log;
 
-http:Client clientEP = new("http://localhost:9095", config = { httpVersion: "2.0" });
+http:Client clientEP = new("http://localhost:9191", config = { httpVersion: "2.0" });
 
 public function main() {
     var respGet = clientEP->get("/hello/sayHello");
@@ -16,10 +16,7 @@ public function main() {
         log:printError(<string>respGet.detail().message);
     }
 
-    http:Request req = new;
-    req.setTextPayload("Hi, Ballerina!");
-
-    var respPost = clientEP->post("/hello/sayHello", req);
+    var respPost = clientEP->post("/hello/sayHello", "Hello Ballerina!");
     if (respPost is http:Response) {
         var payload = respPost.getTextPayload();
         if (payload is string) {

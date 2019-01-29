@@ -45,10 +45,7 @@ public function main() {
         log:printError(<string>respGet.detail().message);
     }
 
-    http:Request req = new;
-    req.setTextPayload("Hi, Ballerina!");
-
-    var respPost = clientEP->post("/passthrough", req);
+    var respPost = clientEP->post("/passthrough", "Hello Ballerina!");
     if (respPost is http:Response) {
         var payload = respPost.getTextPayload();
         if (payload is string) {

@@ -2,7 +2,7 @@ import ballerina/http;
 import ballerina/io;
 import ballerina/log;
 
-http:Client clientEP = new("https://localhost:9095", config = {
+http:Client clientEP = new("https://localhost:9191", config = {
         httpVersion: "2.0",
         secureSocket: {
             trustStore: {
@@ -13,7 +13,7 @@ http:Client clientEP = new("https://localhost:9095", config = {
     });
 
 public function main() {
-    var response = clientEP->get("/hello/sayHello");
+    var response = clientEP->post("/hello/sayHello", "Hello Ballerina!");
     if (response is http:Response) {
         var payload = response.getTextPayload();
         if (payload is string) {

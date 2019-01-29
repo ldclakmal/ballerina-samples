@@ -4,14 +4,8 @@ import ballerina/log;
 
 listener http:Listener httpServiceEP = new(9090);
 
-@http:ServiceConfig {
-    basePath: "/hello"
-}
 service hello on httpServiceEP {
 
-    @http:ResourceConfig {
-        path: "/sayHello"
-    }
     resource function sayHello(http:Caller caller, http:Request req) {
         _ = caller->respond("Hello World !");
     }
