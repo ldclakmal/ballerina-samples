@@ -2,6 +2,7 @@
 .ballerina/
 target/
 .idea/
+.vscode/
 *.iml
 
 # Ballerina
