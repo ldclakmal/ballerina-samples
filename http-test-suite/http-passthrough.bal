@@ -61,10 +61,11 @@ http:Client passthroughClient = new("https://localhost:9191",
                 path: "${ballerina.home}/bre/security/ballerinaTruststore.p12",
                 password: "ballerina"
             }
-        },
-        connectionThrottling: {
-            maxActiveStreamsPerConnection: 1000
         }
+        // NOTE: Uncomment following code block in order to configure the max number of active streams per connection.
+        //connectionThrottling: {
+        //    maxActiveStreamsPerConnection: 1000
+        //}
     }
 );
 
