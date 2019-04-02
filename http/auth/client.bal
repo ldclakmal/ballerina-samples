@@ -15,9 +15,10 @@
 // under the License.
 
 import ballerina/http;
+import ballerina/io;
 
 // ----------- Basic auth ---------------
-http:Client httpEndpoint = new("https://localhost:9090", config = {
+http:Client basicAuthClient = new("https://localhost:9090", config = {
         auth: {
             scheme: http:BASIC_AUTH,
             config: {
@@ -28,14 +29,14 @@ http:Client httpEndpoint = new("https://localhost:9090", config = {
     });
 
 // ----------- JWT auth ---------------
-http:Client httpEndpoint = new("https://localhost:9090", config = {
+http:Client jwtAuthClient = new("https://localhost:9090", config = {
         auth: {
             scheme: http:JWT_AUTH
         }
     });
 
 // ----------- OAuth2 auth - client credentials grant type ---------------
-http:Client clientEP1 = new("https://api.bitbucket.org/2.0", config = {
+http:Client oauth2ClientCCG = new("https://api.bitbucket.org/2.0", config = {
         auth: {
             scheme: http:OAUTH2,
             config: {
@@ -50,7 +51,7 @@ http:Client clientEP1 = new("https://api.bitbucket.org/2.0", config = {
     });
 
 // ----------- OAuth2 auth - password grant type ---------------
-http:Client clientEP2 = new("https://api.bitbucket.org/2.0", config = {
+http:Client oauth2ClientPG = new("https://api.bitbucket.org/2.0", config = {
         auth: {
             scheme: http:OAUTH2,
             config: {
@@ -70,7 +71,7 @@ http:Client clientEP2 = new("https://api.bitbucket.org/2.0", config = {
     });
 
 // ----------- OAuth2 auth - direct token mode ---------------
-http:Client clientEP3 = new("https://www.googleapis.com/tasks/v1", config = {
+http:Client oauth2ClientDTM = new("https://www.googleapis.com/tasks/v1", config = {
         auth: {
             scheme: http:OAUTH2,
             config: {
@@ -87,3 +88,7 @@ http:Client clientEP3 = new("https://www.googleapis.com/tasks/v1", config = {
             }
         }
     });
+
+public function main() {
+    io:println("Hello");
+}
