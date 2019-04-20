@@ -5,16 +5,24 @@ import ballerina/log;
 import wso2/gsheets4;
 
 gsheets4:Client spreadsheetClientEP = new({
-        clientConfig: {
-            auth: {
-                scheme: http:OAUTH2,
-                accessToken: config:getAsString("GOOGLE_ACCESS_TOKEN"),
-                refreshToken: config:getAsString("GOOGLE_REFRESH_TOKEN"),
-                clientId: config:getAsString("GOOGLE_CLIENT_ID"),
-                clientSecret: config:getAsString("GOOGLE_CLIENT_SECRET")
+    clientConfig: {
+        auth: {
+            scheme: http:OAUTH2,
+            config: {
+                grantType: http:DIRECT_TOKEN,
+                config: {
+                    accessToken: config:getAsString("GOOGLE_ACCESS_TOKEN"),
+                    refreshConfig: {
+                        refreshToken: config:getAsString("GOOGLE_REFRESH_TOKEN"),
+                        clientId: config:getAsString("GOOGLE_CLIENT_ID"),
+                        clientSecret: config:getAsString("GOOGLE_CLIENT_SECRET"),
+                        refreshUrl: gsheets4:REFRESH_URL
+                    }
+                }
             }
         }
-    });
+    }
+});
 
 public function main() {
     gsheets4:Spreadsheet testSheet = new;

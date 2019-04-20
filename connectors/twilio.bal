@@ -4,10 +4,10 @@ import ballerina/log;
 import wso2/twilio;
 
 twilio:Client twilioClient = new({
-        accountSId: config:getAsString("TWILIO_ACCOUNT_SID"),
-        authToken: config:getAsString("TWILIO_AUTH_TOKEN"),
-        xAuthyKey: config:getAsString("TWILIO_AUTHY_API_KEY")
-    });
+    accountSId: config:getAsString("TWILIO_ACCOUNT_SID"),
+    authToken: config:getAsString("TWILIO_AUTH_TOKEN"),
+    xAuthyKey: config:getAsString("TWILIO_AUTHY_API_KEY")
+});
 
 public function main() {
     var accountDetails = twilioClient->getAccountDetails();

@@ -12,7 +12,12 @@ sf:Client salesforceClient = new({
         clientConfig: {
             auth: {
                 scheme: http:OAUTH2,
-                accessToken: accessToken
+                config: {
+                    grantType: http:DIRECT_TOKEN,
+                    config: {
+                        accessToken: accessToken
+                    }
+                }
             }
         }
     });

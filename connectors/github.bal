@@ -5,13 +5,18 @@ import ballerina/log;
 import wso2/github4;
 
 github4:Client githubClient = new({
-        clientConfig: {
-            auth: {
-                scheme: http:OAUTH2,
-                accessToken: config:getAsString("GITHUB_TOKEN")
+    clientConfig: {
+        auth: {
+            scheme: http:OAUTH2,
+            config: {
+                grantType: http:DIRECT_TOKEN,
+                config: {
+                    accessToken: config:getAsString("GITHUB_TOKEN")
+                }
             }
         }
-    });
+    }
+});
 
 public function main() {
     github4:Repository repository = {};

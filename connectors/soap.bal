@@ -2,7 +2,7 @@ import ballerina/io;
 import ballerina/log;
 import wso2/soap;
 
-soap:Client soapClient = new("http://localhost:9000");
+soap:Soap11Client soapClient = new("http://localhost:9000");
 
 public function main() {
     log:printInfo("soapClient -> sendReceive()");
@@ -13,12 +13,7 @@ public function main() {
                         </m0:request>
                     </m0:getQuote>`;
 
-    soap:SoapRequest soapRequest = {
-        soapAction: "urn:getQuote",
-        payload: body
-    };
-
-    var response = soapClient->sendReceive("/services/SimpleStockQuoteService", soapRequest);
+    var response = soapClient->sendReceive("/services/SimpleStockQuoteService", "urn:getQuote", body);
     if (response is soap:SoapResponse) {
         io:println(response);
     } else {

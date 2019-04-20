@@ -5,16 +5,24 @@ import ballerina/log;
 import wso2/gmail;
 
 gmail:Client gmailEP = new({
-        clientConfig: {
-            auth: {
-                scheme: http:OAUTH2,
-                accessToken: config:getAsString("GOOGLE_ACCESS_TOKEN"),
-                clientId: config:getAsString("GOOGLE_CLIENT_ID"),
-                clientSecret: config:getAsString("GOOGLE_CLIENT_SECRET"),
-                refreshToken: config:getAsString("GOOGLE_REFRESH_TOKEN")
+    clientConfig: {
+        auth: {
+            scheme: http:OAUTH2,
+            config: {
+                grantType: http:DIRECT_TOKEN,
+                config: {
+                    accessToken: config:getAsString("GOOGLE_ACCESS_TOKEN"),
+                    refreshConfig: {
+                        clientId: config:getAsString("GOOGLE_CLIENT_ID"),
+                        clientSecret: config:getAsString("GOOGLE_CLIENT_SECRET"),
+                        refreshToken: config:getAsString("GOOGLE_REFRESH_TOKEN"),
+                        refreshUrl: gmail:REFRESH_URL
+                    }
+                }
             }
         }
-    });
+    }
+});
 
 public function main() {
     string userId = "me";
