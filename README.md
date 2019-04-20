@@ -3,11 +3,12 @@
 Sample codes written with [Ballerina](https://ballerina.io) programming language.
 1. Sample codes for HTTP use cases
 2. Sample codes for HTTP/2 use cases
+3. Test suite for HTTP and HTTP/2
 3. Usage of [WSO2 connectors](https://github.com/wso2-ballerina)
 
 ### Compatibility
 
-**Ballerina version:** 0.985.0
+**Ballerina version:** 0.991.0
 
 ## How to run
 
