@@ -2,15 +2,15 @@ import ballerina/http;
 import ballerina/io;
 import ballerina/log;
 
-http:Client clientEP = new("https://localhost:9191", config = {
-        httpVersion: "2.0",
-        secureSocket: {
-            trustStore: {
-                path: "${ballerina.home}/bre/security/ballerinaTruststore.p12",
-                password: "ballerina"
-            }
+http:Client clientEP = new("https://localhost:9095", config = {
+    httpVersion: "2.0",
+    secureSocket: {
+        trustStore: {
+            path: "${ballerina.home}/bre/security/ballerinaTruststore.p12",
+            password: "ballerina"
         }
-    });
+    }
+});
 
 public function main() {
     var response = clientEP->post("/hello/sayHello", "Hello Ballerina!");

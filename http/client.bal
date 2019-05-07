@@ -19,11 +19,11 @@ public function main() {
 
     http:Request req = new;
     req.setJsonPayload(
-           {
-               "name": "sample",
-               "salary": "100",
-               "age": 20
-           }
+       {
+           "name": "sample",
+           "salary": "100",
+           "age": 20
+       }
     );
     var respPost = clientEP->post("/create", req);
     if (respPost is http:Response) {

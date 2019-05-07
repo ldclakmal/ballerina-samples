@@ -76,14 +76,14 @@ service passthroughService on passthroughListener {
     resource function passthrough(http:Caller outboundEP, http:Request clientRequest) {
         var response = passthroughClient->forward("/hello/sayHello", clientRequest);
         if (response is http:Response) {
-            _ = outboundEP->respond(response);
+            checkpanic outboundEP->respond(response);
         } else {
             log:printError("Error at passthrough service", err = response);
             http:Response res = new;
             res.statusCode = http:INTERNAL_SERVER_ERROR_500;
             json errMsg = { message: <string>response.detail().message };
             res.setPayload(errMsg);
-            _ = outboundEP->respond(res);
+            checkpanic outboundEP->respond(res);
         }
     }
 }

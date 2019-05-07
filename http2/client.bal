@@ -1,7 +1,7 @@
 import ballerina/http;
 import ballerina/log;
 
-http:Client clientEP = new("http://localhost:9191", config = { httpVersion: "2.0" });
+http:Client clientEP = new("http://localhost:9095", config = { httpVersion: "2.0" });
 
 public function main() {
     var respGet = clientEP->get("/hello/sayHello");

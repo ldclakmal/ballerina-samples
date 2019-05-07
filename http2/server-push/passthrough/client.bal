@@ -30,5 +30,4 @@ public function main() returns error? {
         // Check if more promises exists.
         hasPromise = clientEP->hasPromise(httpFuture);
     }
-    return ();
 }

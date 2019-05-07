@@ -23,6 +23,6 @@ service hello on new http:Listener(9095) {
             response.statusCode = 500;
             response.setPayload(<string>clientResponse.detail().message);
         }
-        _ = caller->respond(response);
+        checkpanic caller->respond(response);
     }
 }

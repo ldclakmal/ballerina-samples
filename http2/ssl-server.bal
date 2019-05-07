@@ -1,6 +1,6 @@
 import ballerina/http;
 
-listener http:Listener helloWorldEP = new(9191, config = {
+listener http:Listener helloWorldEP = new(9095, config = {
     httpVersion: "2.0",
     secureSocket: {
         keyStore: {
@@ -13,6 +13,6 @@ listener http:Listener helloWorldEP = new(9191, config = {
 service hello on helloWorldEP {
 
     resource function sayHello(http:Caller caller, http:Request req) {
-        _ = caller->respond("Hello " + untaint req.method + " Request !");
+        checkpanic caller->respond("Hello " + untaint req.method + " Request !");
     }
 }

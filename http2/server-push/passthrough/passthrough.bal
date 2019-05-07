@@ -17,10 +17,10 @@ service passthroughService on passthroughEP {
         //TODO: improve forward action to receive pushPromises
         var response = backendEP->forward("/backend", clientRequest);
         if (response is http:Response) {
-            _ = outboundEP->respond(response);
+            checkpanic outboundEP->respond(response);
         } else {
             log:printError(<string>response.detail().message);
-            _ = outboundEP->respond({ "error": "error occurred while invoking the service" });
+            checkpanic outboundEP->respond({ "error": "error occurred while invoking the service" });
         }
     }
 }
