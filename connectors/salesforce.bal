@@ -4,18 +4,27 @@ import ballerina/io;
 import ballerina/log;
 import wso2/sfdc37 as sf;
 
-string url = config:getAsString("SALESFORCE_ENDPOINT");
-string accessToken = config:getAsString("SALESFORCE_ACCESS_TOKEN");
+string baseUrl = config:getAsString("SALESFORCE_ENDPOINT");
+string tokenUrl = config:getAsString("SALESFORCE_TOKEN_URL");
+string username = config:getAsString("SALESFORCE_USERNAME");
+string password = config:getAsString("SALESFORCE_PASSWORD");
+string clientId = config:getAsString("SALESFORCE_CLIENT_ID");
+string clientSecret = config:getAsString("SALESFORCE_CLIENT_SECRET");
 
 sf:Client salesforceClient = new({
-        baseUrl: url,
+        baseUrl: baseUrl,
         clientConfig: {
             auth: {
                 scheme: http:OAUTH2,
                 config: {
-                    grantType: http:DIRECT_TOKEN,
+                    grantType: http:PASSWORD_GRANT,
                     config: {
-                        accessToken: accessToken
+                        tokenUrl: tokenUrl,
+                        username: username,
+                        password: password,
+                        clientId: clientId,
+                        clientSecret: clientSecret,
+                        credentialBearer: http:POST_BODY_BEARER
                     }
                 }
             }
@@ -23,7 +32,7 @@ sf:Client salesforceClient = new({
     });
 
 public function main() {
-    var response = salesforceClient->getAvailableApiVersions();
+    var response = salesforceClient->getOrganizationLimits();
     if (response is json) {
         io:println(response);
     } else {
