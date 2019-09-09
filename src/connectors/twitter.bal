@@ -1,6 +1,5 @@
 import ballerina/config;
 import ballerina/io;
-import ballerina/log;
 import wso2/twitter;
 
 twitter:Client twitterClient = new({
@@ -11,14 +10,14 @@ twitter:Client twitterClient = new({
 });
 
 public function main() {
-    string status = "Hello Ballerina!";
+    string status = "Hello Ballerina 1.0.0!";
     var twitterStatus = twitterClient->tweet(status);
     if (twitterStatus is twitter:Status) {
-        string tweetId = string.convert(twitterStatus.id);
+        string tweetId = twitterStatus.id.toString();
         string text = twitterStatus.text;
         io:println("Tweet ID: " + tweetId);
         io:println("Tweet: " + text);
     } else {
-        log:printError(<string>twitterStatus.detail().message);
+        io:println(twitterStatus);
     }
 }
