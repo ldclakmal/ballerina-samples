@@ -8,6 +8,7 @@ target/
 # Ballerina
 *.conf
 *.log
+*.lock
 
 # CUSTOM files
 tcp_stream
