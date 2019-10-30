@@ -1,8 +1,7 @@
 import ballerina/config;
-import ballerina/http;
 import ballerina/io;
 import ballerina/log;
-import chanakal/gtasks;
+import ldclakmal/gtasks;
 
 gtasks:GTasksConfiguration gTasksConfig = {
     accessToken: config:getAsString("GOOGLE_ACCESS_TOKEN"),
@@ -10,7 +9,6 @@ gtasks:GTasksConfiguration gTasksConfig = {
     clientSecret: config:getAsString("GOOGLE_CLIENT_SECRET"),
     refreshToken: config:getAsString("GOOGLE_REFRESH_TOKEN")
 };
-
 gtasks:Client gTasksClient = new(gTasksConfig);
 
 public function main() {
@@ -18,14 +16,14 @@ public function main() {
     if (listTaksListResponse is json) {
         io:println(listTaksListResponse);
     } else {
-        log:printError(<string>listTaksListResponse.detail().message);
+        log:printError("Failed to list task-list", listTaksListResponse);
     }
 
     var listTasksResponse = gTasksClient->listTasks("Ballerina Day");
     if (listTasksResponse is json) {
         io:println(listTasksResponse);
     } else {
-        log:printError(<string>listTasksResponse.detail().message);
+        log:printError("Failed to list tasks", listTasksResponse);
     }
 
     json task = {
@@ -44,6 +42,6 @@ public function main() {
     if (updateTaskResponse is json) {
         io:println(updateTaskResponse);
     } else {
-        log:printError(<string>updateTaskResponse.detail().message);
+        log:printError("Failed to update task", updateTaskResponse);
     }
 }

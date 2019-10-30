@@ -1,6 +1,6 @@
 import ballerina/config;
 import ballerina/log;
-import chanakal/committer;
+import ldclakmal/committer;
 
 committer:CommitterReportConfiguration committerReportConfig = {
     githubToken: config:getAsString("GITHUB_TOKEN"),
@@ -16,18 +16,18 @@ public function main() {
     string githubUser = "ldclakmal";
     var prDetails = committerReportClient->printPullRequestList(githubUser, committer:STATE_ALL);
     if (prDetails is error) {
-        log:printError(<string>prDetails.detail().message);
+        log:printError("Failed to print PR list", err = prDetails);
     }
 
     var issueDetails = committerReportClient->printIssueList(githubUser, committer:STATE_ALL);
     if (issueDetails is error) {
-        log:printError(<string>issueDetails.detail().message);
+        log:printError("Failed to print issue list", err = issueDetails);
     }
 
     string userEmail = "b7a.demo@gmail.com";
     string[] excludeEmails = ["mygroup@abc.com"];
     var emailDetails = committerReportClient->printEmailList(userEmail, excludeEmails);
     if (emailDetails is error) {
-        log:printError(<string>emailDetails.detail().message);
+        log:printError("Failed to print email list", err = emailDetails);
     }
 }

@@ -1,28 +1,20 @@
 import ballerina/config;
 import ballerina/io;
-import ballerina/http;
 import ballerina/log;
 import wso2/gmail;
 
-gmail:Client gmailEP = new({
-    clientConfig: {
-        auth: {
-            scheme: http:OAUTH2,
-            config: {
-                grantType: http:DIRECT_TOKEN,
-                config: {
-                    accessToken: config:getAsString("GOOGLE_ACCESS_TOKEN"),
-                    refreshConfig: {
-                        clientId: config:getAsString("GOOGLE_CLIENT_ID"),
-                        clientSecret: config:getAsString("GOOGLE_CLIENT_SECRET"),
-                        refreshToken: config:getAsString("GOOGLE_REFRESH_TOKEN"),
-                        refreshUrl: gmail:REFRESH_URL
-                    }
-                }
-            }
+gmail:GmailConfiguration gmailConfig = {
+    oauthClientConfig: {
+        accessToken: config:getAsString("GOOGLE_ACCESS_TOKEN"),
+        refreshConfig: {
+            clientId: config:getAsString("GOOGLE_CLIENT_ID"),
+            clientSecret: config:getAsString("GOOGLE_CLIENT_SECRET"),
+            refreshToken: config:getAsString("GOOGLE_REFRESH_TOKEN"),
+            refreshUrl: gmail:REFRESH_URL
         }
     }
-});
+};
+gmail:Client gmailClient = new (gmailConfig);
 
 public function main() {
     string userId = "me";
@@ -32,32 +24,30 @@ public function main() {
     messageRequest.cc = config:getAsString("GMAIL_CC");
     messageRequest.subject = "Email-Subject";
     messageRequest.messageBody = "Email Message Body Text";
-    //Set the content type of the mail as TEXT_PLAIN or TEXT_HTML.
     messageRequest.contentType = gmail:TEXT_PLAIN;
-    //Send the message.
-    var sendMessageResponse = gmailEP->sendMessage(userId, messageRequest);
 
     string messageId = "";
     string threadId = "";
-    if (sendMessageResponse is (string, string)) {
-        (messageId, threadId) = sendMessageResponse;
+    var sendMessageResponse = gmailClient->sendMessage(userId, messageRequest);
+    if (sendMessageResponse is [string, string]) {
+        [messageId, threadId] = sendMessageResponse;
         io:println("Sent Message ID: " + messageId);
         io:println("Sent Thread ID: " + threadId);
     } else {
-        log:printError(<string>sendMessageResponse.detail().message);
+        log:printError("Failed to send email", err = sendMessageResponse);
     }
 
-    var readResponse = gmailEP->readMessage(userId, untaint messageId);
+    var readResponse = gmailClient->readMessage(userId, <@untainted> messageId);
     if (readResponse is gmail:Message) {
         io:println("Sent Message: " + readResponse.id);
     } else {
-        log:printError(<string>readResponse.detail().message);
+        log:printError("Failed to read email", err = readResponse);
     }
 
-    var deleteResponse = gmailEP->deleteMessage(userId, untaint messageId);
+    var deleteResponse = gmailClient->deleteMessage(userId, <@untainted> messageId);
     if (deleteResponse is boolean) {
         io:println("Message deletion success!");
     } else {
-        log:printError(<string>deleteResponse.detail().message);
+        log:printError("Failed to delete email", err = deleteResponse);
     }
 }

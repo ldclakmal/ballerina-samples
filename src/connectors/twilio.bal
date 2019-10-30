@@ -14,14 +14,14 @@ public function main() {
     if (accountDetails is twilio:Account) {
         io:println(accountDetails);
     } else {
-        log:printError(<string>accountDetails.detail().message);
+        log:printError("Failed to get account details", err = accountDetails);
     }
 
     var authyDetails = twilioClient->getAuthyAppDetails();
     if (authyDetails is twilio:AuthyAppDetailsResponse) {
         io:println(authyDetails);
     } else {
-        log:printError(<string>authyDetails.detail().message);
+        log:printError("Failed to get authy app details", err = authyDetails);
     }
 
     string fromMobile = config:getAsString("TWILIO_SAMPLE_FROM_MOBILE");
@@ -32,6 +32,6 @@ public function main() {
     if (response is twilio:SmsResponse) {
         io:println(response);
     } else {
-        log:printError(<string>response.detail().message);
+        log:printError("Failed to send sms", err = response);
     }
 }
