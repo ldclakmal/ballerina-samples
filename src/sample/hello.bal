@@ -1,4 +1,3 @@
-// import ballerina/io;
 // import ballerina/auth;
 // import ballerina/cache;
 // import ballerina/config;
