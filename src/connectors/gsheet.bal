@@ -16,7 +16,7 @@ gsheets4:SpreadsheetConfiguration spreadsheetConfig = {
 };
 gsheets4:Client spreadsheetClient = new (spreadsheetConfig);
 
-public function main() {
+public function demoGSheet() {
     gsheets4:Spreadsheet testSheet = new;
     int testSheetId = 0;
 

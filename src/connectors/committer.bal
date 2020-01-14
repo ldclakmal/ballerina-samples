@@ -12,7 +12,7 @@ committer:CommitterReportConfiguration committerReportConfig = {
 
 committer:Client committerReportClient = new(committerReportConfig);
 
-public function main() {
+public function demoCommitter() {
     string githubUser = "ldclakmal";
     var prDetails = committerReportClient->printPullRequestList(githubUser, committer:STATE_ALL);
     if (prDetails is error) {

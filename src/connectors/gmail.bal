@@ -16,7 +16,7 @@ gmail:GmailConfiguration gmailConfig = {
 };
 gmail:Client gmailClient = new (gmailConfig);
 
-public function main() {
+public function demoGMail() {
     string userId = "me";
     gmail:MessageRequest messageRequest = {};
     messageRequest.recipient = config:getAsString("GMAIL_RECIPIENT");

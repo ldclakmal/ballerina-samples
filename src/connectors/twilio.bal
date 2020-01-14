@@ -9,7 +9,7 @@ twilio:Client twilioClient = new({
     xAuthyKey: config:getAsString("TWILIO_AUTHY_API_KEY")
 });
 
-public function main() {
+public function demoTwillio() {
     var accountDetails = twilioClient->getAccountDetails();
     if (accountDetails is twilio:Account) {
         io:println(accountDetails);

@@ -8,7 +8,7 @@ github4:GitHubConfiguration gitHubConfig = {
 };
 github4:Client githubClient = new(gitHubConfig);
 
-public function main() {
+public function demoGitHub() {
     github4:Repository repository = {};
     var response = githubClient->getRepository("wso2-ballerina/module-github");
     if (response is github4:Repository) {

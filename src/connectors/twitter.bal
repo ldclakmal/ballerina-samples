@@ -9,7 +9,7 @@ twitter:Client twitterClient = new({
     accessTokenSecret: config:getAsString("TWITTER_ACCESS_TOKEN_SECRET")
 });
 
-public function main() {
+public function demoTwitter() {
     string status = "Hello Ballerina 1.0.0!";
     var twitterStatus = twitterClient->tweet(status);
     if (twitterStatus is twitter:Status) {

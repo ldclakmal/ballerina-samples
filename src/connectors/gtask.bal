@@ -11,7 +11,7 @@ gtasks:GTasksConfiguration gTasksConfig = {
 };
 gtasks:Client gTasksClient = new(gTasksConfig);
 
-public function main() {
+public function demoGTasks() {
     var listTaksListResponse = gTasksClient->listTaskLists();
     if (listTaksListResponse is json) {
         io:println(listTaksListResponse);

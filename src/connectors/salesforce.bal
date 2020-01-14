@@ -17,7 +17,7 @@ sf:SalesforceConfiguration sfConfig = {
 };
 sf:Client salesforceClient = new(sfConfig);
 
-public function main() {
+public function demoSalesforce() {
     var response = salesforceClient->getOrganizationLimits();
     if (response is map<sf:Limit>) {
         io:println(response);
