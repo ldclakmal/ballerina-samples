@@ -1,6 +1,5 @@
-// import ballerina/lang.'string as str;
-// import ballerina/stringutils;
+import ballerina/io;
 
 public function main() {
-
+    io:println("Hello!");
 }
