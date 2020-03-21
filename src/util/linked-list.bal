@@ -1,5 +1,3 @@
-import ballerina/io;
-
 public type Node record {|
     any value;
     Node? prev = ();
@@ -73,28 +71,54 @@ public function clear(LinkedList list) {
     list.tail = ();
 }
 
-// For debug process
-public function print(LinkedList list) {
+# Prints the complete linked list with head and tail in following pattern.
+# '[HEAD] 6 -> 2 -> 1 -> 4 -> 5 [TAIL]'
+#
+# + list - The linked list to print
+# + return - The string representation of the complete linked list
+public function print(LinkedList list) returns string {
     if (list.head is ()) {
-        io:println("List is empty ...");
-        return;
+        return "List is empty.";
     }
 
     Node head = <Node>list.head;
-    io:println("--------------------------------------------------");
-    io:println("HEAD: " + head.value.toString());
-    Node? prevOfHead = head.prev;
-    io:println(prevOfHead is () ? "head.prev is ()" : "head.prev -> Ooops!");
+    Node tail = <Node>list.tail;
 
-    Node? next = list.head;
-    while (!(next is ())) {
-        io:println(next.value);
-        next = next.next;
+    Node? prevOfHead = head.prev;
+    if !(prevOfHead is ()) {
+        return "head.prev is not empty. Something went wrong!";
     }
 
-    Node tail = <Node>list.tail;
-    io:println("TAIL: " + tail.value.toString());
     Node? nextOfTail = tail.next;
-    io:println(nextOfTail is () ? "tail.next is ()" : "tail.next -> Ooops!");
-    io:println("--------------------------------------------------");
+    if !(nextOfTail is ()) {
+        return "tail.next is not empty. Something went wrong!";
+    }
+
+    string s = "[HEAD] " + head.value.toString();
+    if (head !== tail) {
+        s += " -> ";
+    }
+    Node next = <Node>list.head;
+    while (true) {
+        if (next === head || next === tail) {
+            if (next.next is ()) {
+                break;
+            }
+            next = <Node>next.next;
+            continue;
+        }
+
+        s += next.value.toString();
+        if (next.next is ()) {
+            break;
+        }
+        next = <Node>next.next;
+        s += " -> ";
+    }
+    if (head !== tail) {
+        s += tail.value.toString();
+    }
+    s += " [TAIL]";
+
+    return s;
 }
