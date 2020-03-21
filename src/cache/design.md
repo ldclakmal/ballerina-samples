@@ -1,6 +1,8 @@
-# Design 1
+# Ballerina Cache Module Design Documentation
 
-## Abstract Objects
+## Design 1
+
+### Abstract Objects
 
 ```ballerina
 public type AbstractEvictionPolicy abstract object {
@@ -14,7 +16,7 @@ public type AbstractCache abstract object {
 };
 ```
 
-## Implementation
+### Implementation
 
 ```ballerina
 public type LruEvictionPolicy object {
@@ -75,16 +77,16 @@ public type Cache object {
 };
 ```
 
-## Samples
+### Samples
 
-### Sample 1 - Simple initialization
+#### Sample 1 - Simple initialization
 
 ```ballerina
 cache:Cache c = new;
 // cache:AbstractCache c = new Cache();
 ```
 
-### Sample 2 - Advanced initialization
+#### Sample 2 - Advanced initialization
 
 ```ballerina
 cache:Cache c = new({
@@ -100,7 +102,7 @@ cache:AbstractCache c = new Cache({
 });
 ```
 
-### Sample 3 - Usage in another module
+#### Sample 3 - Usage in another module
 
 ```ballerina
 public type JwtConfig record {
@@ -120,9 +122,9 @@ public type JwtConfig record {
 
 ---
 
-# Design 2
+## Design 2
 
-## Abstract Objects
+### Abstract Objects
 
 ```ballerina
 public type AbstractEvictionPolicy abstract object {
@@ -136,7 +138,7 @@ public type AbstractDataSource abstract object {
 };
 ```
 
-## Implementation
+### Implementation
 
 ```ballerina
 public type LruEvictionPolicy object {
@@ -208,15 +210,15 @@ public type MapDataSource object {
 };
 ```
 
-## Samples
+### Samples
 
-### Sample 1 - Simple initialization
+#### Sample 1 - Simple initialization
 
 ```ballerina
 cache:Cache c = new;
 ```
 
-### Sample 1 - Advanced initialization
+#### Sample 1 - Advanced initialization
 
 ```ballerina
 MapDataSource mds = new({
@@ -230,7 +232,7 @@ cache:Cache c = new({
 });
 ```
 
-### Sample 3 - Usage in another module
+#### Sample 3 - Usage in another module
 
 ```ballerina
 public type JwtConfig record {

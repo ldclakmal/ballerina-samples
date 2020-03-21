@@ -1,46 +1,108 @@
 import ballerina/cache;
-import ballerina/io;
 import ballerina/runtime;
 import ballerina/test;
 
 @test:Config {}
-function test() returns error? {
-  cache:CacheConfig config = {
-    capacity: 10,
-    evictionFactor: 0.2,
-    cleanupIntervalInSeconds: 15
-  };
-  cache:Cache c = new(config);
+function testCacheEvictionWithCapacity1() {
+    cache:CacheConfig config = {
+        capacity: 10,
+        evictionFactor: 0.2
+    };
+    cache:Cache cache = new(config);
+    checkpanic cache.put("A", "1");
+    checkpanic cache.put("B", "2");
+    checkpanic cache.put("C", "3");
+    checkpanic cache.put("D", "4");
+    checkpanic cache.put("E", "5");
+    checkpanic cache.put("F", "6");
+    checkpanic cache.put("G", "7");
+    checkpanic cache.put("H", "8");
+    checkpanic cache.put("I", "9");
+    checkpanic cache.put("J", "10");
+    checkpanic cache.put("K", "11");
+    int size = cache.size();
+    test:assertEquals(size, 9);
+    string[] keys = cache.keys();
+    var expected = ["C", "D", "E", "F", "G", "H", "I", "J", "K"];
+    test:assertEquals(keys, expected);
+}
 
-  _ = check c.put("key 1", "value 1");
-  _ = check c.put("key 2", "value 2");
-  _ = check c.put("key 3", "value 3", 2);
-  _ = check c.put("key 4", "value 4");
-  _ = check c.put("key 5", "value 5");
-  _ = check c.put("key 6", "value 6");
-  _ = check c.put("key 7", "value 7");
-  _ = check c.put("key 8", "value 8");
-  _ = check c.put("key 9", "value 9");
-  _ = check c.put("key 10", "value 10");
-  io:println(c.size());
+@test:Config {}
+function testCacheEvictionWithCapacity2() {
+    cache:CacheConfig config = {
+        capacity: 10,
+        evictionFactor: 0.2
+    };
+    cache:Cache cache = new(config);
+    checkpanic cache.put("A", "1");
+    checkpanic cache.put("B", "2");
+    checkpanic cache.put("C", "3");
+    checkpanic cache.put("D", "4");
+    checkpanic cache.put("E", "5");
+    checkpanic cache.put("F", "6");
+    checkpanic cache.put("G", "7");
+    checkpanic cache.put("H", "8");
+    checkpanic cache.put("I", "9");
+    checkpanic cache.put("J", "10");
+    any|cache:Error x = cache.get("A");
+    checkpanic cache.put("K", "11");
+    int size = cache.size();
+    test:assertEquals(size, 9);
+    string[] keys = cache.keys();
+    var expected = ["A", "D", "E", "F", "G", "H", "I", "J", "K"];
+    test:assertEquals(keys, expected);
+}
 
-  // c.put("key 11", "value 11");
-  // io:println(c.size());
+@test:Config {}
+function testCacheEvictionWithTimer1() {
+    int cleanupIntervalInSeconds = 2;
+    cache:CacheConfig config = {
+        capacity: 10,
+        evictionFactor: 0.2,
+        defaultMaxAgeInSeconds: 1,
+        cleanupIntervalInSeconds: cleanupIntervalInSeconds
+    };
+    cache:Cache cache = new(config);
+    checkpanic cache.put("A", "1");
+    checkpanic cache.put("B", "2");
+    checkpanic cache.put("C", "3");
+    runtime:sleep(cleanupIntervalInSeconds * 1000 * 2 + 1000);
+    int size = cache.size();
+    test:assertEquals(size, 0);
+    string[] keys = cache.keys();
+    var expected = [];
+    test:assertEquals(keys, expected);
+}
 
-  any a = check c.get("key 3");
-  io:println(c.size());
+@test:Config {}
+function testCacheEvictionWithTimer2() {
+    int cleanupIntervalInSeconds = 2;
+    cache:CacheConfig config = {
+        capacity: 10,
+        evictionFactor: 0.2,
+        defaultMaxAgeInSeconds: 1,
+        cleanupIntervalInSeconds: cleanupIntervalInSeconds
+    };
+    cache:Cache cache = new(config);
+    checkpanic cache.put("A", "1");
+    checkpanic cache.put("B", "2", 3600);
+    checkpanic cache.put("C", "3");
+    runtime:sleep(cleanupIntervalInSeconds * 1000 * 2 + 1000);
+    int size = cache.size();
+    test:assertEquals(size, 1);
+    string[] keys = cache.keys();
+    var expected = ["B"];
+    test:assertEquals(keys, expected);
+}
 
-  // c.remove("key 5");
-  // io:println(c.size());
-
-  string[] keys = c.keys();
-  io:println(keys);
-
-  runtime:sleep(10000);
-
-  // a = c.get("key 3");
-  // io:println(c.size());
-
-  keys = c.keys();
-  io:println(keys);
+@test:Config {
+    dependsOn: ["testCacheEvictionWithCapacity1", "testCacheEvictionWithCapacity2",
+    "testCacheEvictionWithTimer1", "testCacheEvictionWithTimer2"]
+}
+function testCachePerformance() {
+    evaluatePerformance(10);
+    evaluatePerformance(100);
+    evaluatePerformance(1000);
+    evaluatePerformance(10000);
+    evaluatePerformance(100000);
 }

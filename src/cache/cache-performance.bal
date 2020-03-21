@@ -1,9 +1,11 @@
+// This code is extracted from
+// https://github.com/chethiya/ballerina-cache/blob/master/src/cache/tests/lru-cache-performance_test.bal
+// and updated for Ballerina cache v2.0.0 implementation.
+
 import ballerina/io;
 import ballerina/math;
 import ballerina/time;
 import ballerina/cache;
-
-int cacheCapacity = 10000;
 
 int putQ = 1000000;
 int getQ = 1000000;
@@ -11,7 +13,7 @@ int getQ = 1000000;
 function simulateGetForPerformance(cache:Cache cache) {
     int hitRate = 0;
     int i = 0;
-    int rangeEndValue = cacheCapacity / 10;
+    int rangeEndValue = cache.capacity() / 10;
     if (rangeEndValue == 0) {
         rangeEndValue = 1;
     }
@@ -34,20 +36,18 @@ function simulateGetForPerformance(cache:Cache cache) {
     io:println("Worker time: ", curTime - startTime, " (ns);", " Hit rate: ", hitRate, "; Started at: ", started);
 }
 
-public function evaluatePerformance() {
-    io:println("Testing performance with the cache capacity: ", cacheCapacity);
+public function evaluatePerformance(int capacity) {
+    io:println("Testing performance with the cache capacity: ", capacity);
     cache:CacheConfig config = {
-        capacity: cacheCapacity,
+        capacity: capacity,
         evictionFactor: 0.25
     };
     cache:Cache cache = new(config);
 
-    // cache:Cache cache = new(cacheCapacity);
-
     int startTime = time:nanoTime();
     int i = 0;
     int hitRate = 0;
-    int rangeEndValue = cacheCapacity / 10;
+    int rangeEndValue = capacity / 10;
     if (rangeEndValue == 0) {
         rangeEndValue = 1;
     }
@@ -83,8 +83,4 @@ public function evaluatePerformance() {
     _ = wait {w1, w2, w3, w4};
     int endTime = time:nanoTime();
     io:println("Total time: ", (endTime - startTime) / (1000 * 1000 * 1000), " (s)");
-}
-
-public function main() {
-    evaluatePerformance();
 }
