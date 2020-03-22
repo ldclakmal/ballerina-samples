@@ -7,3 +7,10 @@ function testTwilioConnector() {
     boolean result = runTwilioTestSuite();
     test:assertTrue(result);
 }
+
+@test:Config {}
+function testGMailConnector() {
+    io:println("-- GMail Connector --");
+    boolean result = runGMailTestSuite();
+    test:assertTrue(result);
+}
