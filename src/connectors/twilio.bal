@@ -9,7 +9,7 @@ twilio:Client twilioClient = new({
     xAuthyKey: config:getAsString("TWILIO_AUTHY_API_KEY")
 });
 
-public function runTestSuite() returns boolean {
+public function runTwilioTestSuite() returns boolean {
     boolean success = true;
 
     var accountDetails = twilioClient->getAccountDetails();

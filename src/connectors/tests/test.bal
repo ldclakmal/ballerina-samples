@@ -4,6 +4,6 @@ import ballerina/test;
 @test:Config {}
 function testTwilioConnector() {
     io:println("-- Twilio Connector --");
-    boolean result = runTestSuite();
+    boolean result = runTwilioTestSuite();
     test:assertTrue(result);
 }
