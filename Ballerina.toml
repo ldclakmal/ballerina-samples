@@ -3,4 +3,3 @@ org-name= "ldclakmal"
 version= "1.0.0"
 
 [dependencies]
-"ballerinax/twilio" = { path = "/Users/ldclakmal/Projects/module-twilio/target/balo/twilio-2020r1-any-0.9.0.balo" }
