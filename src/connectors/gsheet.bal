@@ -1,45 +1,47 @@
-//import ballerina/config;
-//import ballerina/io;
-//import ballerina/log;
-//import wso2/gsheets4;
-//
-//gsheets4:SpreadsheetConfiguration spreadsheetConfig = {
-//    oAuthClientConfig: {
-//        accessToken: config:getAsString("GOOGLE_ACCESS_TOKEN"),
-//        refreshConfig: {
-//            refreshToken: config:getAsString("GOOGLE_REFRESH_TOKEN"),
-//            clientId: config:getAsString("GOOGLE_CLIENT_ID"),
-//            clientSecret: config:getAsString("GOOGLE_CLIENT_SECRET"),
-//            refreshUrl: gsheets4:REFRESH_URL
-//        }
-//    }
-//};
-//gsheets4:Client spreadsheetClient = new (spreadsheetConfig);
-//
-//public function demoGSheet() {
-//    gsheets4:Spreadsheet testSheet = new;
-//    int testSheetId = 0;
-//
-//    var createResponse = spreadsheetClient->createSpreadsheet("Sample-Spreadsheet");
-//    if (createResponse is gsheets4:Spreadsheet) {
-//        testSheet = createResponse;
-//        io:println(createResponse);
-//    } else {
-//        log:printError("Failed to create sheet", err = createResponse);
-//    }
-//
-//    var addResponse = spreadsheetClient->addNewSheet(<@untainted> testSheet.spreadsheetId, "Sample-Sheet");
-//    if (addResponse is gsheets4:Sheet) {
-//        testSheetId = addResponse.properties.sheetId;
-//        io:println(addResponse);
-//    } else {
-//        log:printError("Failed to add new sheet", err = addResponse);
-//    }
-//
-//    var deleteResponse = spreadsheetClient->deleteSheet(<@untainted> testSheet.spreadsheetId, <@untainted> testSheetId);
-//    if (deleteResponse is boolean) {
-//        io:println(deleteResponse);
-//    } else {
-//        log:printError("Failed to delete sheet", err = deleteResponse);
-//    }
-//}
+import ballerina/config;
+import ballerina/io;
+import ballerina/log;
+import ballerinax/googleapis.sheets4;
+
+sheets4:SpreadsheetConfiguration spreadsheetConfig = {
+    oAuthClientConfig: {
+        accessToken: config:getAsString("GOOGLE_ACCESS_TOKEN"),
+        refreshConfig: {
+            refreshToken: config:getAsString("GOOGLE_REFRESH_TOKEN"),
+            clientId: config:getAsString("GOOGLE_CLIENT_ID"),
+            clientSecret: config:getAsString("GOOGLE_CLIENT_SECRET"),
+            refreshUrl: sheets4:REFRESH_URL
+        }
+    }
+};
+sheets4:Client spreadsheetClient = new (spreadsheetConfig);
+
+public function runGSheetsTestSuite() returns boolean {
+    boolean success = true;
+
+    var createResponse = spreadsheetClient->createSpreadsheet("Sample-Spreadsheet");
+    if (createResponse is sheets4:Spreadsheet) {
+        sheets4:Spreadsheet spreadsheet = createResponse;
+        io:println(spreadsheet.getProperties());
+
+        var addResponse = spreadsheet->addSheet("Sample-Sheet");
+        if (addResponse is sheets4:Sheet) {
+            sheets4:Sheet sheet = addResponse;
+            io:println(sheet.getProperties());
+
+            var renameResponse = sheet->rename("Sample-Sheet-RENAMED");
+            if (renameResponse is error) {
+                log:printError("Failed to rename the sheet", err = renameResponse);
+                success = false;
+            }
+        } else {
+            log:printError("Failed to add new sheet", err = addResponse);
+            success = false;
+        }
+    } else {
+        log:printError("Failed to create sheet", err = createResponse);
+        success = false;
+    }
+
+    return success;
+}

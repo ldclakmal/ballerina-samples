@@ -14,3 +14,10 @@ function testGMailConnector() {
     boolean result = runGMailTestSuite();
     test:assertTrue(result);
 }
+
+@test:Config {}
+function testGSheetsConnector() {
+    io:println("-- GSheets Connector --");
+    boolean result = runGSheetsTestSuite();
+    test:assertTrue(result);
+}
