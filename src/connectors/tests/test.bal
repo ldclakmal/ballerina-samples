@@ -21,3 +21,10 @@ function testGSheetsConnector() {
     boolean result = runGSheetsTestSuite();
     test:assertTrue(result);
 }
+
+@test:Config {}
+function testGitHubConnector() {
+    io:println("-- GitHub Connector --");
+    boolean result = runGitHubTestSuite();
+    test:assertTrue(result);
+}
