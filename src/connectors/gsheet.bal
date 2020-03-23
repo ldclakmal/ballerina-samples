@@ -31,15 +31,15 @@ public function runGSheetsTestSuite() returns boolean {
 
             var renameResponse = sheet->rename("Sample-Sheet-RENAMED");
             if (renameResponse is error) {
-                log:printError("Failed to rename the sheet", err = renameResponse);
+                log:printError("Failed to rename the sheet.", err = renameResponse);
                 success = false;
             }
         } else {
-            log:printError("Failed to add new sheet", err = addResponse);
+            log:printError("Failed to add new sheet.", err = addResponse);
             success = false;
         }
     } else {
-        log:printError("Failed to create sheet", err = createResponse);
+        log:printError("Failed to create sheet.", err = createResponse);
         success = false;
     }
 

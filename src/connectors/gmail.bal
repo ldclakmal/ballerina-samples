@@ -36,7 +36,7 @@ public function runGMailTestSuite() returns boolean {
         io:println("Sent Message ID: " + messageId);
         io:println("Sent Thread ID: " + threadId);
     } else {
-        log:printError("Failed to send email", err = sendMessageResponse);
+        log:printError("Failed to send the email.", err = sendMessageResponse);
         success = false;
     }
 
@@ -44,7 +44,7 @@ public function runGMailTestSuite() returns boolean {
     if (readResponse is gmail:Message) {
         io:println("Sent Message: " + readResponse.id);
     } else {
-        log:printError("Failed to read email", err = readResponse);
+        log:printError("Failed to read the email.", err = readResponse);
         success = false;
     }
 
