@@ -28,3 +28,10 @@ function testGitHubConnector() {
     boolean result = runGitHubTestSuite();
     test:assertTrue(result);
 }
+
+@test:Config {}
+function testSalesforceConnector() {
+    io:println("-- Salesforce Connector --");
+    boolean result = runSalesforceTestSuite();
+    test:assertTrue(result);
+}
