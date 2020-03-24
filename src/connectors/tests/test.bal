@@ -35,3 +35,10 @@ function testSalesforceConnector() {
     boolean result = runSalesforceTestSuite();
     test:assertTrue(result);
 }
+
+@test:Config {}
+function testTwitterConnector() {
+    io:println("-- Twitter Connector --");
+    boolean result = runTwitterTestSuite();
+    test:assertTrue(result);
+}
