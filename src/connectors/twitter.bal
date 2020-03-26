@@ -1,11 +1,11 @@
 import ballerina/config;
 import ballerina/io;
 import ballerina/log;
-import wso2/twitter;
+import ldclakmal/twitter;
 
 twitter:Client twitterClient = new({
-    clientId: config:getAsString("TWITTER_CLIENT_ID"),
-    clientSecret: config:getAsString("TWITTER_CLIENT_SECRET"),
+    consumerKey: config:getAsString("TWITTER_CONSUMER_KEY"),
+    consumerSecret: config:getAsString("TWITTER_CONSUMER_SECRET"),
     accessToken: config:getAsString("TWITTER_ACCESS_TOKEN"),
     accessTokenSecret: config:getAsString("TWITTER_ACCESS_TOKEN_SECRET")
 });
