@@ -1,9 +1,18 @@
+# The element which contains the value and references for the linkage.
+#
+# + value - The value of the element
+# + prev - Previous `Node` of the list
+# + next - Next `Node` of the list
 public type Node record {|
     any value;
     Node? prev = ();
     Node? next = ();
 |};
 
+# Doubly linked list implementation with all the operations. Operations that index into the list will traverse the list
+# from the beginning or the end, whichever is closer to the specified index.
+# Note that this implementation is not synchronized. If multiple threads access a linked list concurrently, and at least
+# one of the threads modifies the list structurally, it must be synchronized externally.
 public type LinkedList object {
 
     Node? head;
@@ -14,6 +23,9 @@ public type LinkedList object {
         self.tail = ();
     }
 
+    # Inserts the specified element at the beginning of this list.
+    #
+    # + node - `Node` to be inserted
     public function addFirst(Node node) {
         if (self.head is ()) {
             self.head = node;
@@ -27,6 +39,9 @@ public type LinkedList object {
         self.head = node;
     }
 
+    # Appends the specified element to the end of this list.
+    #
+    # + node - `Node` to be inserted
     public function addLast(Node node) {
         if (self.tail is ()) {
             self.head = node;
@@ -40,6 +55,9 @@ public type LinkedList object {
         self.tail = node;
     }
 
+    # Removes and returns the first element from this list.
+    #
+    # + return - `Node` which is the first element or `()` if the list is empty
     public function removeFirst() returns Node? {
         if (self.head is ()) {
             return ();
@@ -53,6 +71,9 @@ public type LinkedList object {
         return head;
     }
 
+    # Removes and returns the last element from this list.
+    #
+    # + return - `Node` which is the last element or `()` if the list is empty
     public function removeLast() returns Node? {
         if (self.tail is ()) {
             return ();
@@ -66,6 +87,9 @@ public type LinkedList object {
         return tail;
     }
 
+    # Removes the specified element from this list. It should be a `Node` which is retrieved from the list.
+    #
+    # + node - `Node` to be removed
     public function remove(Node node) {
         if (node.prev is ()) {
             self.head = node.next;
@@ -84,6 +108,7 @@ public type LinkedList object {
         node.prev = ();
     }
 
+    # Removes all of the elements from this list.
     public function clear() {
         self.head = ();
         self.tail = ();
@@ -92,7 +117,6 @@ public type LinkedList object {
     # Prints the complete linked list with head and tail in following pattern.
     # '[HEAD] 6 -> 2 -> 1 -> 4 -> 5 [TAIL]'
     #
-    # + list - The linked list to print
     # + return - The string representation of the complete linked list
     public function print() returns string {
         if (self.head is ()) {
