@@ -6,6 +6,7 @@ function testLinkedListForEmptyNodes() {
     string actual = list.print();
     string expected = "List is empty.";
     test:assertEquals(actual, expected);
+    test:assertEquals(0, list.size());
 }
 
 @test:Config {
@@ -18,6 +19,7 @@ function testLinkedListForOneNode() {
     string actual = list.print();
     string expected = "[HEAD] 10 [TAIL]";
     test:assertEquals(actual, expected);
+    test:assertEquals(1, list.size());
 }
 
 @test:Config {
@@ -43,6 +45,7 @@ function testLinkedListForMultipleNodes() {
     string actual = list.print();
     string expected = "[HEAD] 7 -> 6 -> 5 -> 4 -> 3 -> 2 -> 1 [TAIL]";
     test:assertEquals(actual, expected);
+    test:assertEquals(7, list.size());
 }
 
 @test:Config {
@@ -60,15 +63,22 @@ function testLinkedListForAllOperations() {
     list.addFirst(node1);
     list.addFirst(node2);
     list.addFirst(node3);
-    _ = list.removeLast();
+    Node last = <Node>list.removeLast();
+    test:assertEquals(last.value, 1);
     list.addLast(node4);
     list.addLast(node5);
-    _ = list.removeFirst();
+    Node first = <Node>list.removeFirst();
+    test:assertEquals(first.value, 3);
     list.addFirst(node6);
     list.addLast(node7);
     list.remove(node5);
+    first = <Node>list.getFirst();
+    test:assertEquals(first.value, 6);
+    last = <Node>list.getLast();
+    test:assertEquals(last.value, 7);
 
     string actual = list.print();
     string expected = "[HEAD] 6 -> 2 -> 4 -> 7 [TAIL]";
     test:assertEquals(actual, expected);
+    test:assertEquals(4, list.size());
 }

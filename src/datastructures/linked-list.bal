@@ -17,10 +17,32 @@ public type LinkedList object {
 
     Node? head;
     Node? tail;
+    int size;
 
     public function __init() {
         self.head = ();
         self.tail = ();
+        self.size = 0;
+    }
+
+    # Returns the first element in this list.
+    #
+    # + return - `Node` which is at the head of the list, of `()` if the list is empty
+    public function getFirst() returns Node? {
+        if (self.head is ()) {
+            return;
+        }
+        return self.head;
+    }
+
+    # Returns the last element in this list.
+    #
+    # + return - `Node` which is at the tail of the list, of `()` if the list is empty
+    public function getLast() returns Node? {
+        if (self.tail is ()) {
+            return;
+        }
+        return self.tail;
     }
 
     # Inserts the specified element at the beginning of this list.
@@ -30,6 +52,7 @@ public type LinkedList object {
         if (self.head is ()) {
             self.head = node;
             self.tail = self.head;
+            self.size = self.size + 1;
             return;
         }
 
@@ -37,6 +60,7 @@ public type LinkedList object {
         node.next = headNode;
         headNode.prev = node;
         self.head = node;
+        self.size = self.size + 1;
     }
 
     # Appends the specified element to the end of this list.
@@ -46,6 +70,7 @@ public type LinkedList object {
         if (self.tail is ()) {
             self.head = node;
             self.tail = self.head;
+            self.size = self.size + 1;
             return;
         }
 
@@ -53,6 +78,7 @@ public type LinkedList object {
         node.prev = tailNode;
         tailNode.next = node;
         self.tail = node;
+        self.size = self.size + 1;
     }
 
     # Removes and returns the first element from this list.
@@ -67,6 +93,7 @@ public type LinkedList object {
         self.head = successorOfHead;
         successorOfHead.prev = ();
         head.next = ();
+        self.size = self.size - 1;
 
         return head;
     }
@@ -83,6 +110,7 @@ public type LinkedList object {
         self.tail = predecessorOfTail;
         predecessorOfTail.next = ();
         tail.prev = ();
+        self.size = self.size - 1;
 
         return tail;
     }
@@ -106,12 +134,18 @@ public type LinkedList object {
         }
         node.next = ();
         node.prev = ();
+        self.size = self.size - 1;
+    }
+
+    public function size() returns int {
+        return self.size;
     }
 
     # Removes all of the elements from this list.
     public function clear() {
         self.head = ();
         self.tail = ();
+        self.size = 0;
     }
 
     # Prints the complete linked list with head and tail in following pattern.
