@@ -1,10 +1,6 @@
-# The element which contains the value and references for the linkage.
-#
-# + value - The value of the element
-# + prev - Previous `Node` of the list
-# + next - Next `Node` of the list
-public type Node record {|
-    any value;
+// The internal element which contains the value and references for the linkage.
+type Node record {|
+    anydata value;
     Node? prev = ();
     Node? next = ();
 |};
@@ -27,28 +23,31 @@ public type LinkedList object {
 
     # Returns the first element in this list.
     #
-    # + return - `Node` which is at the head of the list, of `()` if the list is empty
-    public function getFirst() returns Node? {
+    # + return - Value of the head of the list, of `()` if the list is empty
+    public function getFirst() returns anydata {
         if (self.head is ()) {
             return;
         }
-        return self.head;
+        Node head = <Node>self.head;
+        return head.value;
     }
 
     # Returns the last element in this list.
     #
-    # + return - `Node` which is at the tail of the list, of `()` if the list is empty
-    public function getLast() returns Node? {
+    # + return - Value of the tail of the list, of `()` if the list is empty
+    public function getLast() returns anydata {
         if (self.tail is ()) {
             return;
         }
-        return self.tail;
+        Node tail = <Node>self.tail;
+        return tail.value;
     }
 
     # Inserts the specified element at the beginning of this list.
     #
-    # + node - `Node` to be inserted
-    public function addFirst(Node node) {
+    # + value - Value to be inserted
+    public function addFirst(anydata value) {
+        Node node = {value: value};
         if (self.head is ()) {
             self.head = node;
             self.tail = self.head;
@@ -65,8 +64,9 @@ public type LinkedList object {
 
     # Appends the specified element to the end of this list.
     #
-    # + node - `Node` to be inserted
-    public function addLast(Node node) {
+    # + value - Value to be inserted
+    public function addLast(anydata value) {
+        Node node = {value: value};
         if (self.tail is ()) {
             self.head = node;
             self.tail = self.head;
@@ -83,8 +83,8 @@ public type LinkedList object {
 
     # Removes and returns the first element from this list.
     #
-    # + return - `Node` which is the first element or `()` if the list is empty
-    public function removeFirst() returns Node? {
+    # + return - Value of the first element or `()` if the list is empty
+    public function removeFirst() returns anydata {
         if (self.head is ()) {
             return ();
         }
@@ -95,13 +95,13 @@ public type LinkedList object {
         head.next = ();
         self.size = self.size - 1;
 
-        return head;
+        return head.value;
     }
 
     # Removes and returns the last element from this list.
     #
-    # + return - `Node` which is the last element or `()` if the list is empty
-    public function removeLast() returns Node? {
+    # + return - Value of the last element or `()` if the list is empty
+    public function removeLast() returns anydata {
         if (self.tail is ()) {
             return ();
         }
@@ -112,13 +112,25 @@ public type LinkedList object {
         tail.prev = ();
         self.size = self.size - 1;
 
-        return tail;
+        return tail.value;
     }
 
-    # Removes the specified element from this list. It should be a `Node` which is retrieved from the list.
+    # Removes the specified element from this list, if it is present.
     #
-    # + node - `Node` to be removed
-    public function remove(Node node) {
+    # + value - Value to be removed
+    public function remove(anydata value) {
+        if (self.head is ()) {
+            return;
+        }
+
+        Node node = <Node>self.head;
+        while (node.value != value) {
+            if (node.next is ()) {
+                return;
+            }
+            node = <Node>node.next;
+        }
+
         if (node.prev is ()) {
             self.head = node.next;
         } else {
@@ -137,6 +149,9 @@ public type LinkedList object {
         self.size = self.size - 1;
     }
 
+    # Return the size (no of elements) of the list.
+    #
+    # + return - The size of the list
     public function size() returns int {
         return self.size;
     }
@@ -198,5 +213,4 @@ public type LinkedList object {
 
         return s;
     }
-
 };

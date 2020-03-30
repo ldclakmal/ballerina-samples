@@ -1,7 +1,7 @@
 import ballerina/test;
 
 @test:Config {}
-function testLinkedListForEmptyNodes() {
+function testEmptyLinkedList() {
     LinkedList list = new;
     string actual = list.print();
     string expected = "List is empty.";
@@ -10,12 +10,11 @@ function testLinkedListForEmptyNodes() {
 }
 
 @test:Config {
-    dependsOn: ["testLinkedListForEmptyNodes"]
+    dependsOn: ["testEmptyLinkedList"]
 }
-function testLinkedListForOneNode() {
+function testLinkedListForOneElement() {
     LinkedList list = new;
-    Node node1 = {value: 10};
-    list.addFirst(node1);
+    list.addFirst(10);
     string actual = list.print();
     string expected = "[HEAD] 10 [TAIL]";
     test:assertEquals(actual, expected);
@@ -23,24 +22,17 @@ function testLinkedListForOneNode() {
 }
 
 @test:Config {
-    dependsOn: ["testLinkedListForOneNode"]
+    dependsOn: ["testLinkedListForOneElement"]
 }
-function testLinkedListForMultipleNodes() {
+function testLinkedListForMultipleElements() {
     LinkedList list = new;
-    Node node1 = {value: 1};
-    Node node2 = {value: 2};
-    Node node3 = {value: 3};
-    Node node4 = {value: 4};
-    Node node5 = {value: 5};
-    Node node6 = {value: 6};
-    Node node7 = {value: 7};
-    list.addFirst(node1);
-    list.addFirst(node2);
-    list.addFirst(node3);
-    list.addFirst(node4);
-    list.addFirst(node5);
-    list.addFirst(node6);
-    list.addFirst(node7);
+    list.addFirst(1);
+    list.addFirst(2);
+    list.addFirst(3);
+    list.addFirst(4);
+    list.addFirst(5);
+    list.addFirst(6);
+    list.addFirst(7);
 
     string actual = list.print();
     string expected = "[HEAD] 7 -> 6 -> 5 -> 4 -> 3 -> 2 -> 1 [TAIL]";
@@ -49,33 +41,26 @@ function testLinkedListForMultipleNodes() {
 }
 
 @test:Config {
-    dependsOn: ["testLinkedListForMultipleNodes"]
+    dependsOn: ["testLinkedListForMultipleElements"]
 }
 function testLinkedListForAllOperations() {
     LinkedList list = new;
-    Node node1 = {value: 1};
-    Node node2 = {value: 2};
-    Node node3 = {value: 3};
-    Node node4 = {value: 4};
-    Node node5 = {value: 5};
-    Node node6 = {value: 6};
-    Node node7 = {value: 7};
-    list.addFirst(node1);
-    list.addFirst(node2);
-    list.addFirst(node3);
-    Node last = <Node>list.removeLast();
-    test:assertEquals(last.value, 1);
-    list.addLast(node4);
-    list.addLast(node5);
-    Node first = <Node>list.removeFirst();
-    test:assertEquals(first.value, 3);
-    list.addFirst(node6);
-    list.addLast(node7);
-    list.remove(node5);
-    first = <Node>list.getFirst();
-    test:assertEquals(first.value, 6);
-    last = <Node>list.getLast();
-    test:assertEquals(last.value, 7);
+    list.addFirst(1);
+    list.addFirst(2);
+    list.addFirst(3);
+    int last = <int>list.removeLast();
+    test:assertEquals(last, 1);
+    list.addLast(4);
+    list.addLast(5);
+    int first = <int>list.removeFirst();
+    test:assertEquals(first, 3);
+    list.addFirst(6);
+    list.addLast(7);
+    list.remove(5);
+    first = <int>list.getFirst();
+    test:assertEquals(first, 6);
+    last = <int>list.getLast();
+    test:assertEquals(last, 7);
 
     string actual = list.print();
     string expected = "[HEAD] 6 -> 2 -> 4 -> 7 [TAIL]";
