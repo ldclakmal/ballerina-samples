@@ -5,6 +5,8 @@ type Node record {|
     Node? next = ();
 |};
 
+// TODO: Prevent inserting the `()` as the value.
+
 # Doubly linked list implementation with all the operations. Operations that index into the list will traverse the list
 # from the beginning or the end, whichever is closer to the specified index.
 # Note that this implementation is not synchronized. If multiple threads access a linked list concurrently, and at least
@@ -43,6 +45,40 @@ public type LinkedList object {
         return tail.value;
     }
 
+    # Return the element at the specified index, if index is valid.
+    #
+    # + index - Index of the list, starting from 0
+    # + return - Value of the element or `()` if the list is empty or index is invalid
+    public function getByIndex(int index) returns anydata {
+        if (index < 0 || index >= self.size) {
+            return;
+        }
+
+        if (index < self.size / 2) {
+            int count = 0;
+            Node node = <Node>self.head;
+            while (count != index) {
+                if (node.next is ()) {
+                    return;
+                }
+                node = <Node>node.next;
+                count = count + 1;
+            }
+            return node.value;
+        } else {
+            int count = self.size - 1;
+            Node node = <Node>self.tail;
+            while (count != index) {
+                if (node.prev is ()) {
+                    return;
+                }
+                node = <Node>node.prev;
+                count = count - 1;
+            }
+            return node.value;
+        }
+    }
+
     # Inserts the specified element at the beginning of this list.
     #
     # + value - Value to be inserted
@@ -78,6 +114,55 @@ public type LinkedList object {
         node.prev = tailNode;
         tailNode.next = node;
         self.tail = node;
+        self.size = self.size + 1;
+    }
+
+    # Appends the specified element to the specified index of the list.
+    #
+    # + value - Value to be inserted
+    # + index - Index of the list, starting from 0
+    public function addByIndex(anydata value, int index) {
+        if (index < 0 || index >= self.size) {
+            return;
+        }
+
+        if (index < self.size / 2) {
+            int count = 0;
+            Node node = <Node>self.head;
+            while (count != index) {
+                if (node.next is ()) {
+                    return;
+                }
+                node = <Node>node.next;
+                count = count + 1;
+            }
+            Node newNode = {value: value};
+            Node? prev = node.prev;
+            newNode.next = node;
+            newNode.prev = prev;
+            if !(prev is ()) {
+                prev.next = newNode;
+            }
+            node.prev = newNode;
+        } else {
+            int count = self.size - 1;
+            Node node = <Node>self.tail;
+            while (count != index) {
+                if (node.prev is ()) {
+                    return;
+                }
+                node = <Node>node.prev;
+                count = count - 1;
+            }
+            Node newNode = {value: value};
+            Node? prev = node.prev;
+            newNode.next = node;
+            newNode.prev = prev;
+            if !(prev is ()) {
+                prev.next = newNode;
+            }
+            node.prev = newNode;
+        }
         self.size = self.size + 1;
     }
 
@@ -130,7 +215,46 @@ public type LinkedList object {
             }
             node = <Node>node.next;
         }
+        self.removeNode(node);
+    }
 
+    # Removes the element at the specified index from this list, if index is valid.
+    #
+    # + index - Index of the list, starting from 0
+    # + return - Value of the removed element or `()` if the list is empty or index is invalid
+    public function removeByIndex(int index) returns anydata {
+        if (index < 0 || index >= self.size) {
+            return;
+        }
+
+        if (index < self.size / 2) {
+            int count = 0;
+            Node node = <Node>self.head;
+            while (count != index) {
+                if (node.next is ()) {
+                    return;
+                }
+                node = <Node>node.next;
+                count = count + 1;
+            }
+            self.removeNode(node);
+            return node.value;
+        } else {
+            int count = self.size - 1;
+            Node node = <Node>self.tail;
+            while (count != index) {
+                if (node.prev is ()) {
+                    return;
+                }
+                node = <Node>node.prev;
+                count = count - 1;
+            }
+            self.removeNode(node);
+            return node.value;
+        }
+    }
+
+    private function removeNode(Node node) {
         if (node.prev is ()) {
             self.head = node.next;
         } else {
@@ -147,6 +271,25 @@ public type LinkedList object {
         node.next = ();
         node.prev = ();
         self.size = self.size - 1;
+    }
+
+    # Returns true if this list contains the specified element.
+    #
+    # + value - Value to be checked for
+    # + return - `true` if the list contains the specified, `false` otherwise
+    public function contains(anydata value) returns boolean {
+        if (self.head is ()) {
+            return false;
+        }
+
+        Node node = <Node>self.head;
+        while (node.value != value) {
+            if (node.next is ()) {
+                return false;
+            }
+            node = <Node>node.next;
+        }
+        return true;
     }
 
     # Return the size (no of elements) of the list.

@@ -6,7 +6,7 @@ function testEmptyLinkedList() {
     string actual = list.print();
     string expected = "List is empty.";
     test:assertEquals(actual, expected);
-    test:assertEquals(0, list.size());
+    test:assertEquals(list.size(), 0);
 }
 
 @test:Config {
@@ -18,7 +18,7 @@ function testLinkedListForOneElement() {
     string actual = list.print();
     string expected = "[HEAD] 10 [TAIL]";
     test:assertEquals(actual, expected);
-    test:assertEquals(1, list.size());
+    test:assertEquals(list.size(), 1);
 }
 
 @test:Config {
@@ -37,7 +37,7 @@ function testLinkedListForMultipleElements() {
     string actual = list.print();
     string expected = "[HEAD] 7 -> 6 -> 5 -> 4 -> 3 -> 2 -> 1 [TAIL]";
     test:assertEquals(actual, expected);
-    test:assertEquals(7, list.size());
+    test:assertEquals(list.size(), 7);
 }
 
 @test:Config {
@@ -61,9 +61,18 @@ function testLinkedListForAllOperations() {
     test:assertEquals(first, 6);
     last = <int>list.getLast();
     test:assertEquals(last, 7);
+    boolean contains = list.contains(7);
+    test:assertTrue(contains);
+    contains = list.contains(1);
+    test:assertFalse(contains);
+    int get = <int>list.getByIndex(2);
+    test:assertEquals(get, 4);
+    list.addByIndex(10, 2);
+    int remove = <int>list.removeByIndex(2);
+    test:assertEquals(remove, 10);
 
     string actual = list.print();
     string expected = "[HEAD] 6 -> 2 -> 4 -> 7 [TAIL]";
     test:assertEquals(actual, expected);
-    test:assertEquals(4, list.size());
+    test:assertEquals(list.size(), 4);
 }
