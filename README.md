@@ -2,7 +2,6 @@
 
 Sample codes written with [Ballerina](https://ballerina.io) programming language.
 - Usage of Ballerina connectors
-- Data structure algorithms
 - Usage of Ballerina cache
 
 ### Compatibility
