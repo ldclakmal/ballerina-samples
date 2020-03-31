@@ -1,5 +1,7 @@
 [project]
-org-name= "ldclakmal"
-version= "1.0.0"
-
-[dependencies]
+org-name = "ldclakmal"
+version = "1.0.0"
+authors = ["Chanaka Lakmal"]
+keywords = ["sample"]
+repository = "https://github.com/ldclakmal/ballerina-samples"
+license = ["Apache-2.0"]
