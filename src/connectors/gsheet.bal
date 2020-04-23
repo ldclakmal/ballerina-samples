@@ -4,7 +4,7 @@ import ballerina/log;
 import ballerinax/googleapis.sheets4;
 
 sheets4:SpreadsheetConfiguration spreadsheetConfig = {
-    oAuthClientConfig: {
+    oauth2Config: {
         accessToken: config:getAsString("GOOGLE_ACCESS_TOKEN"),
         refreshConfig: {
             refreshToken: config:getAsString("GOOGLE_REFRESH_TOKEN"),
