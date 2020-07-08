@@ -1,37 +1,30 @@
-// https://github.com/rroemhild/docker-test-openldap
-
 import ballerina/http;
-import ballerina/config;
 import ballerina/log;
 import ballerina/ldap;
 
 ldap:LdapConnectionConfig ldapConfig = {
-    domainName: "planetexpress.com",
-    //connectionURL: "ldaps://localhost:636",
+    domainName: "avix.lk",
     connectionURL: "ldap://localhost:389",
-    connectionName: "cn=admin,dc=planetexpress,dc=com",
-    connectionPassword: "GoodNewsEveryone",
-    userSearchBase: "ou=people,dc=planetexpress,dc=com",
+    connectionName: "cn=admin,dc=avix,dc=lk",
+    connectionPassword: "avix123",
+    userSearchBase: "ou=Users,dc=avix,dc=lk",
     userEntryObjectClass: "inetOrgPerson",
     userNameAttribute: "uid",
     userNameSearchFilter: "(&(objectClass=inetOrgPerson)(uid=?))",
     userNameListFilter: "(objectClass=inetOrgPerson)",
-    groupSearchBase: ["ou=people,dc=planetexpress,dc=com"],
-    groupEntryObjectClass: "Group",
+    groupSearchBase: ["ou=Groups,dc=avix,dc=lk"],
+    groupEntryObjectClass: "groupOfNames",
     groupNameAttribute: "cn",
-    groupNameSearchFilter: "(&(objectClass=Group)(cn=?))",
-    groupNameListFilter: "(objectClass=Group)",
+    groupNameSearchFilter: "(&(objectClass=groupOfNames)(cn=?))",
+    groupNameListFilter: "(objectClass=groupOfNames)",
     membershipAttribute: "member",
     userRolesCacheEnabled: true,
     connectionPoolingEnabled: false,
     connectionTimeoutInMillis: 5000,
     readTimeoutInMillis: 60000,
     retryAttempts: 3
-    secureSocket: {
-        trustedCertFile: "/path/to/cert.pem"
-    }
 };
-ldap:InboundLdapAuthProvider ldapAuthProvider = new(ldapConfig, "ldap01");
+ldap:InboundLdapAuthProvider ldapAuthProvider = new(ldapConfig, "openldap-server");
 http:BasicAuthHandler ldapAuthHandler = new(ldapAuthProvider);
 
 listener http:Listener ep = new (9090, {
@@ -40,8 +33,7 @@ listener http:Listener ep = new (9090, {
     },
     secureSocket: {
         keyStore: {
-            path: config:getAsString("b7a.home") +
-                  "/bre/security/ballerinaKeystore.p12",
+            path: config:getAsString("b7a.home") + "/bre/security/ballerinaKeystore.p12",
             password: "ballerina"
         }
     }
