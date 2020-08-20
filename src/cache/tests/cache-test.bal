@@ -1,5 +1,3 @@
-import ballerina/cache;
-import ballerina/runtime;
 import ballerina/test;
 
 @test:Config {}
