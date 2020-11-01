@@ -15,7 +15,7 @@ public function main() {
     jwt:JwtValidatorConfig validatorConfig = {
         issuer: "https://localhost:9443/oauth2/token",
         audience: "vEwzbcasJVQm1jVYHUHCjhxZ4tYa",
-        signatureConfig: {
+        jwksConfig: {
             url: "https://asb0zigfg2.execute-api.us-west-2.amazonaws.com/v1/jwks"
         }
     };
