@@ -6,7 +6,7 @@ target/
 *.iml
 
 # Ballerina
-*.conf
+**.conf
 *.log
 *.lock
 

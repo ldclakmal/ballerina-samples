@@ -1,7 +1,7 @@
-[project]
-org-name = "ldclakmal"
+[package]
+org = "ldclakmal"
+name = "auth"
 version = "1.0.0"
 authors = ["Chanaka Lakmal"]
-keywords = ["sample"]
 repository = "https://github.com/ldclakmal/ballerina-samples"
 license = ["Apache-2.0"]
