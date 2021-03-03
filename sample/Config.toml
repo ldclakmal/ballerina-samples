@@ -1,0 +1,4 @@
+[[sample.users]]
+username = "tom"
+password = "123"
+scopes = ["hello"]
