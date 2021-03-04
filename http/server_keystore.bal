@@ -3,7 +3,7 @@ import ballerina/http;
 listener http:Listener listenerEP = new (9090, {
     secureSocket: {
         keyStore: {
-            path: "resources/keystore/ballerinaKeystore.p12",
+            path: "../resources/keystore/ballerinaKeystore.p12",
             password: "ballerina"
         }
     }
