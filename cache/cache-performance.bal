@@ -2,10 +2,10 @@
 // https://github.com/chethiya/ballerina-cache/blob/master/src/cache/tests/lru-cache-performance_test.bal
 // and updated for Ballerina cache v2.0.0 implementation.
 
-import ballerina/io;
-import ballerina/math;
-import ballerina/time;
 import ballerina/cache;
+import ballerina/io;
+import ballerina/random;
+import ballerina/time;
 
 int putQ = 1000000;
 int getQ = 1000000;
@@ -20,8 +20,8 @@ function simulateGetForPerformance(cache:Cache cache) {
     int started = -1;
     int startTime = time:nanoTime();
     while (i < getQ) {
-        boolean small = <int>math:randomInRange(0, 1) == 0 ? true : false;
-        int getIndex = <int>math:randomInRange(0, small ? rangeEndValue : getQ);
+        boolean small = checkpanic random:createIntInRange(0, 1) == 0 ? true : false;
+        int getIndex = checkpanic random:createIntInRange(0, small ? rangeEndValue : getQ);
         string getKey = getIndex.toString();
         any | error getValue = cache.get(getKey);
         if (getValue is int) {
