@@ -6,6 +6,10 @@ Sample codes written with [Ballerina](https://ballerina.io) programming language
 
 ### Compatibility
 
+**Ballerina version:** Swan Lake Alpha2
+
+### Compatibility ([connectors](./connectors))
+
 **Ballerina version:** 1.2.0
 
 ## How to run
