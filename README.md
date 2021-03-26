@@ -6,7 +6,7 @@ Sample codes written with [Ballerina](https://ballerina.io) programming language
 
 |                            | **Version**       |
 |----------------------------|-------------------|
-| Ballerina Language         | Swan Lake Alpha 2 |
+| Ballerina Language         | Swan Lake Alpha 3 |
 | Java Development Kit (JDK) | 11                |
 
 ### Compatibility ([connectors](./connectors) package)

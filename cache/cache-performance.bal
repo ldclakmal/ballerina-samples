@@ -18,7 +18,7 @@ function simulateGetForPerformance(cache:Cache cache) {
         rangeEndValue = 1;
     }
     int started = -1;
-    int startTime = time:nanoTime();
+    time:Utc startTime = time:utcNow();
     while (i < getQ) {
         boolean small = checkpanic random:createIntInRange(0, 1) == 0 ? true : false;
         int getIndex = checkpanic random:createIntInRange(0, small ? rangeEndValue : getQ);
@@ -32,8 +32,8 @@ function simulateGetForPerformance(cache:Cache cache) {
         }
         i += 1;
     }
-    int curTime = time:nanoTime();
-    io:println("Worker time: ", curTime - startTime, " (ns);", " Hit rate: ", hitRate, "; Started at: ", started);
+    time:Utc curTime = time:utcNow();
+    io:println("Worker time: ", time:utcDiffSeconds(curTime, startTime) * 1000 * 1000 * 1000, " (ns);", " Hit rate: ", hitRate, "; Started at: ", started);
 }
 
 public function evaluatePerformance(int capacity) {
@@ -44,7 +44,7 @@ public function evaluatePerformance(int capacity) {
     };
     cache:Cache cache = new(config);
 
-    int startTime = time:nanoTime();
+    time:Utc startTime = time:utcNow();
     int i = 0;
     int hitRate = 0;
     int rangeEndValue = capacity / 10;
@@ -78,9 +78,9 @@ public function evaluatePerformance(int capacity) {
         }
         i += 1;
     }
-    int curTime = time:nanoTime();
-    io:println("Cache put time is ", curTime - startTime, " (ns)", " and hit rate is ", hitRate);
+    time:Utc curTime = time:utcNow();
+    io:println("Cache put time is ", time:utcDiffSeconds(curTime, startTime) * 1000 * 1000 * 1000, " (ns)", " and hit rate is ", hitRate);
     _ = wait {w1, w2, w3, w4};
-    int endTime = time:nanoTime();
-    io:println("Total time: ", (endTime - startTime) / (1000 * 1000 * 1000), " (s)");
+    time:Utc endTime = time:utcNow();
+    io:println("Total time: ", time:utcDiffSeconds(endTime, startTime), " (s)");
 }
