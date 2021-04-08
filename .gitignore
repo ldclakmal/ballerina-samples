@@ -9,6 +9,7 @@ target/
 **.conf
 *.log
 *.lock
+**/Dependencies.toml
 
 # CUSTOM files
 tcp_stream
