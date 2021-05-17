@@ -15,7 +15,6 @@ target/
 tcp_stream
 *.pcapng
 *.zip
-*.png
 *.jar
 *.jmx
 *.jfr
