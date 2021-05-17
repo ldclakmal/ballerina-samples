@@ -6,7 +6,7 @@ Sample codes written with [Ballerina](https://ballerina.io) programming language
 
 |                            | **Version**       |
 |----------------------------|-------------------|
-| Ballerina Language         | Swan Lake Alpha 3 |
+| Ballerina Language         | Swan Lake Alpha 5 |
 | Java Development Kit (JDK) | 11                |
 
 ### Compatibility ([connectors](./connectors) package)
@@ -20,4 +20,4 @@ Sample codes written with [Ballerina](https://ballerina.io) programming language
 
 1. Refer to the [Quick Tour](https://ballerina.io/learn/getting-started/quick-tour/) guide to download and install Ballerina.
 2. Clone the [ballerina-sample](https://github.com/ldclakmal/ballerina-samples) GitHub repository.
-3. Move inside to `ballerina-samples` directory and run the particular .bal file by executing `$ ballerina run <file_name.bal>` command **OR** run the particular package by executing `$ ballerina build <module_name>`.
+3. Move inside to `ballerina-samples` directory and run the particular .bal file by executing `$ ballerina run <file_name.bal>` command **OR** run the particular module by executing `$ ballerina run <module_name>`.
