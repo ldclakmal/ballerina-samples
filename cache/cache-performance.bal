@@ -9,6 +9,7 @@ import ballerina/time;
 
 int putQ = 1000000;
 int getQ = 1000000;
+decimal mf = 1000;
 
 function simulateGetForPerformance(cache:Cache cache) {
     int hitRate = 0;
@@ -33,7 +34,7 @@ function simulateGetForPerformance(cache:Cache cache) {
         i += 1;
     }
     time:Utc curTime = time:utcNow();
-    io:println("Worker time: ", time:utcDiffSeconds(curTime, startTime) * 1000 * 1000 * 1000, " (ns);", " Hit rate: ", hitRate, "; Started at: ", started);
+    io:println("Worker time: ", time:utcDiffSeconds(curTime, startTime) * mf * mf * mf, " (ns);", " Hit rate: ", hitRate, "; Started at: ", started);
 }
 
 public function evaluatePerformance(int capacity) {
@@ -79,7 +80,7 @@ public function evaluatePerformance(int capacity) {
         i += 1;
     }
     time:Utc curTime = time:utcNow();
-    io:println("Cache put time is ", time:utcDiffSeconds(curTime, startTime) * 1000 * 1000 * 1000, " (ns)", " and hit rate is ", hitRate);
+    io:println("Cache put time is ", time:utcDiffSeconds(curTime, startTime) * mf * mf * mf, " (ns)", " and hit rate is ", hitRate);
     _ = wait {w1, w2, w3, w4};
     time:Utc endTime = time:utcNow();
     io:println("Total time: ", time:utcDiffSeconds(endTime, startTime), " (s)");
