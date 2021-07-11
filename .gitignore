@@ -7,9 +7,9 @@ target/
 
 # Ballerina
 **.conf
-*.log
-*.lock
-**/Dependencies.toml
+**.log
+**.lock
+**/Config.toml
 
 # CUSTOM files
 tcp_stream
