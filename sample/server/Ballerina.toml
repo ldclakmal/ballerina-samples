@@ -1,6 +1,6 @@
 [package]
 org = "ldclakmal"
-name = "sample"
+name = "sample_server"
 version = "1.0.0"
 authors = ["Chanaka Lakmal"]
 repository = "https://github.com/ldclakmal/ballerina-samples"
