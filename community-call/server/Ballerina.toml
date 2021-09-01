@@ -1,4 +1,4 @@
 [package]
 org = "ldclakmal"
-name = "community_call_service"
+name = "community_call_server"
 version = "1.0.0"
