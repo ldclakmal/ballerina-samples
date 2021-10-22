@@ -4,10 +4,10 @@ Sample codes written with [Ballerina](https://ballerina.io) programming language
 
 ### Compatibility
 
-|                            | **Version**                 |
-|----------------------------|-----------------------------|
-| Ballerina Language         | Swan Lake Beta 2 (or later) |
-| Java Development Kit (JDK) | 11                          |
+|                            | **Version**      |
+|----------------------------|------------------|
+| Ballerina Language         | Swan Lake Beta 3 |
+| Java Development Kit (JDK) | 11               |
 
 ## How to run
 
