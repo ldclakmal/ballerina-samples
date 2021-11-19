@@ -16,7 +16,6 @@ tcp_stream
 *.pcapng
 *.zip
 *.jar
-*.jmx
 *.jfr
 
 # MAC OS files

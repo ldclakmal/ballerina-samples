@@ -1,0 +1,8 @@
+[package]
+org = "ldclakmal"
+name = "ballerina_locks"
+version = "1.0.0"
+
+[build-options]
+observabilityIncluded = false
+cloud = "k8s"
