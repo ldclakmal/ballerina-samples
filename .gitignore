@@ -7,7 +7,6 @@ target/
 
 # Ballerina
 **.conf
-**.log
 **.lock
 **/Config.toml
 
