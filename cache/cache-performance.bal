@@ -15,16 +15,16 @@ function simulateGetForPerformance(cache:Cache cache) {
     int hitRate = 0;
     int i = 0;
     int rangeEndValue = cache.capacity() / 10;
-    if (rangeEndValue == 0) {
+    if rangeEndValue == 0 {
         rangeEndValue = 1;
     }
     int started = -1;
     time:Utc startTime = time:utcNow();
-    while (i < getQ) {
+    while i < getQ {
         boolean small = checkpanic random:createIntInRange(0, 1) == 0 ? true : false;
         int getIndex = checkpanic random:createIntInRange(0, small ? rangeEndValue : getQ);
         string getKey = getIndex.toString();
-        any | error getValue = cache.get(getKey);
+        any|error getValue = cache.get(getKey);
         if (getValue is int) {
             hitRate += 1;
             if (started == -1) {
@@ -43,13 +43,13 @@ public function evaluatePerformance(int capacity) {
         capacity: capacity,
         evictionFactor: 0.25
     };
-    cache:Cache cache = new(config);
+    cache:Cache cache = new (config);
 
     time:Utc startTime = time:utcNow();
     int i = 0;
     int hitRate = 0;
     int rangeEndValue = capacity / 10;
-    if (rangeEndValue == 0) {
+    if rangeEndValue == 0 {
         rangeEndValue = 1;
     }
 
@@ -68,12 +68,12 @@ public function evaluatePerformance(int capacity) {
         }
     }
 
-    while (i < putQ) {
+    while i < putQ {
         string key = i.toString();
         error? r = cache.put(key, i);
         int getIndex = i % rangeEndValue;
         string getKey = getIndex.toString();
-        any | error getValue = cache.get(getKey);
+        any|error getValue = cache.get(getKey);
         if (getValue is int) {
             hitRate += 1;
         }
