@@ -1,6 +1,5 @@
 import ballerina/io;
 import ballerina/lang.array;
-import ballerina/lang.'string;
 import ballerina/mime;
 import ballerina/regex;
 import ballerina/url;
@@ -14,11 +13,11 @@ public function main() returns error? {
 
 public function base64EncodeDecode() returns error? {
     string input = "Sömethìng!";
-    string base64EncodedString = array:toBase64(input.toBytes());
+    string base64EncodedString = input.toBytes().toBase64();
     io:println(base64EncodedString);
 
     byte[] base64Decoded = check array:fromBase64(base64EncodedString);
-    string base64DecodedString = check 'string:fromBytes(base64Decoded);
+    string base64DecodedString = check string:fromBytes(base64Decoded);
     io:println(base64DecodedString);
 }
 
