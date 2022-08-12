@@ -33,14 +33,15 @@ public function base64MimeEncodeDecode() returns error? {
 }
 
 public function base64UrlSafeEncodeDecode() returns error? {
-    byte[] input = check io:fileReadBytes("./resources/fruits.png");
-    string base64EncodedString = array:toBase64(input);
+    string input = "~Sömethìng!~";
+    string base64EncodedString = input.toBytes().toBase64();
     string base64UrlEncodedString = regex:replaceAll(regex:replaceAll(base64EncodedString, "[+]", "-"), "[/]", "_");
     io:println(base64UrlEncodedString);
 
     string base64UrlDecodedString = regex:replaceAll(regex:replaceAll(base64UrlEncodedString, "[-]", "+"), "[_]", "/");
     byte[] base64Decoded = check array:fromBase64(base64UrlDecodedString);
-    check io:fileWriteBytes("./resources/fruits-copy.png", base64Decoded);
+    string base64DecodedString = check string:fromBytes(base64Decoded);
+    io:println(base64DecodedString);
 }
 
 public function urlEncodeDecode() returns error? {
